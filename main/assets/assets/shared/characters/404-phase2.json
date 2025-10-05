@@ -1,0 +1,60 @@
+{
+	"animations": [
+		{
+			"loop": true,
+			"offsets": [0, 0],
+			"anim": "idle",
+			"fps": 11,
+			"name": "Idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [130, 0],
+			"anim": "singLEFT",
+			"fps": 11,
+			"name": "Left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-140, -10],
+			"anim": "singRIGHT",
+			"fps": 11,
+			"name": "Right",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-40, -170],
+			"anim": "singDOWN",
+			"fps": 11,
+			"name": "Down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [32, 97],
+			"anim": "singUP",
+			"fps": 11,
+			"name": "Up",
+			"indices": []
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": true,
+	"image": "characters/expunged/404 Phase 2",
+	"position": [-840, -620],
+	"healthicon": "404 Phase 2",
+	"healthbar_count": 3,
+	"flip_x": false,
+	"healthbar_colors": [
+		{"green": 255, "red": 255, "blue": 255},
+		{"green": 215, "red": 215, "blue": 255},
+		{"green": 195, "red": 215, "blue": 255}
+	],
+	"camera_position": [260, 120],
+	"sing_duration": 6.1,
+	"scale": 1,
+	"_editor_isPlayer": false
+}

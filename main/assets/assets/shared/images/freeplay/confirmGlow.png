@@ -1,0 +1,1944 @@
+l _hx_tmp2;
+HXDLIN(2006)		if (!(this->showDefaultContextMenu)) {
+HXLINE(2006)			_hx_tmp2 = (button == 2);
+            		}
+            		else {
+HXLINE(2006)			_hx_tmp2 = false;
+            		}
+HXDLIN(2006)		if (_hx_tmp2) {
+HXLINE(2008)			window->onMouseUp->cancel();
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC4(Stage_obj,_hx___onLimeMouseUp,(void))
+
+void Stage_obj::_hx___onLimeMouseWheel( ::lime::ui::Window window,Float deltaX,Float deltaY, ::lime::ui::MouseWheelMode deltaMode){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2013___onLimeMouseWheel)
+HXLINE(2014)		bool _hx_tmp;
+HXDLIN(2014)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2014)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2014)			_hx_tmp = true;
+            		}
+HXDLIN(2014)		if (_hx_tmp) {
+HXLINE(2014)			return;
+            		}
+HXLINE(2016)		this->_hx___dispatchPendingMouseEvent();
+HXLINE(2018)		if (::hx::IsPointerEq( deltaMode,::lime::ui::MouseWheelMode_obj::PIXELS_dyn() )) {
+HXLINE(2020)			int _hx_tmp1 = ::Std_obj::_hx_int((deltaX * window->_hx___scale));
+HXDLIN(2020)			this->_hx___onMouseWheel(( (Float)(_hx_tmp1) ),( (Float)(::Std_obj::_hx_int((deltaY * window->_hx___scale))) ),deltaMode);
+            		}
+            		else {
+HXLINE(2024)			int _hx_tmp2 = ::Std_obj::_hx_int(deltaX);
+HXDLIN(2024)			this->_hx___onMouseWheel(( (Float)(_hx_tmp2) ),( (Float)(::Std_obj::_hx_int(deltaY)) ),deltaMode);
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC4(Stage_obj,_hx___onLimeMouseWheel,(void))
+
+void Stage_obj::_hx___renderAfterEvent(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2029___renderAfterEvent)
+HXLINE(2032)		this->window->_hx___backend->render();
+HXLINE(2034)		bool cancelled = this->_hx___render(this->window->context);
+HXLINE(2036)		if (!(cancelled)) {
+HXLINE(2038)			this->window->_hx___backend->contextFlip();
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,_hx___renderAfterEvent,(void))
+
+bool Stage_obj::_hx___render( ::lime::graphics::RenderContext context){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2044___render)
+HXLINE(2045)		bool cancelled = false;
+HXLINE(2047)		 ::openfl::events::Event event = null();
+HXLINE(2049)		bool shouldRender;
+HXDLIN(2049)		if (::hx::IsNotNull( this->_hx___renderer )) {
+HXLINE(2049)			if (!(this->_hx___renderDirty)) {
+HXLINE(2049)				shouldRender = this->_hx___forceRender;
+            			}
+            			else {
+HXLINE(2049)				shouldRender = true;
+            			}
+            		}
+            		else {
+HXLINE(2049)			shouldRender = false;
+            		}
+HXLINE(2051)		bool _hx_tmp;
+HXDLIN(2051)		if (this->_hx___invalidated) {
+HXLINE(2051)			_hx_tmp = shouldRender;
+            		}
+            		else {
+HXLINE(2051)			_hx_tmp = false;
+            		}
+HXDLIN(2051)		if (_hx_tmp) {
+HXLINE(2053)			this->_hx___invalidated = false;
+HXLINE(2059)			event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("render",56,6b,29,05),null(),null());
+HXLINE(2062)			this->_hx___broadcastEvent(event);
+            		}
+HXLINE(2074)		this->_hx___update(false,true);
+HXLINE(2077)		if (::hx::IsNotNull( this->_hx___renderer )) {
+HXLINE(2079)			if (::hx::IsNotNull( this->context3D )) {
+HXLINE(2081)				{
+HXLINE(2081)					 ::Dynamic stage3D = this->stage3Ds->iterator();
+HXDLIN(2081)					while(( (bool)(stage3D->__Field(HX_("hasNext",6d,a5,46,18),::hx::paccDynamic)()) )){
+HXLINE(2081)						 ::openfl::display::Stage3D stage3D1 = ( ( ::openfl::display::Stage3D)(stage3D->__Field(HX_("next",f3,84,02,49),::hx::paccDynamic)()) );
+HXLINE(2083)						this->context3D->_hx___renderStage3D(stage3D1);
+            					}
+            				}
+HXLINE(2087)				if (this->context3D->_hx___present) {
+HXLINE(2087)					shouldRender = true;
+            				}
+            			}
+HXLINE(2091)			if (shouldRender) {
+HXLINE(2093)				if ((this->_hx___renderer->_hx___type == HX_("cairo",88,30,19,41))) {
+HXLINE(2096)					::hx::TCast<  ::openfl::display::CairoRenderer >::cast(this->_hx___renderer)->cairo = context->cairo;
+            				}
+HXLINE(2100)				if (::hx::IsNull( this->context3D )) {
+HXLINE(2102)					this->_hx___renderer->_hx___clear();
+            				}
+HXLINE(2105)				this->_hx___renderer->_hx___render(::hx::ObjectPtr<OBJ_>(this));
+            			}
+            			else {
+HXLINE(2107)				if (::hx::IsNull( this->context3D )) {
+HXLINE(2109)					cancelled = true;
+            				}
+            			}
+HXLINE(2112)			if (::hx::IsNotNull( this->context3D )) {
+HXLINE(2114)				if (!(this->context3D->_hx___present)) {
+HXLINE(2116)					cancelled = true;
+            				}
+            				else {
+HXLINE(2120)					if (!(this->_hx___renderer->_hx___cleared)) {
+HXLINE(2122)						this->_hx___renderer->_hx___clear();
+            					}
+HXLINE(2125)					this->context3D->_hx___present = false;
+HXLINE(2126)					this->context3D->_hx___cleared = false;
+            				}
+            			}
+HXLINE(2130)			this->_hx___renderer->_hx___cleared = false;
+            		}
+HXLINE(2139)		return cancelled;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___render,return )
+
+void Stage_obj::_hx___onLimeRender( ::lime::graphics::RenderContext context){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2143___onLimeRender)
+HXLINE(2144)		if (this->_hx___rendering) {
+HXLINE(2144)			return;
+            		}
+HXLINE(2145)		this->_hx___rendering = true;
+HXLINE(2155)		 ::openfl::events::Event event = null();
+HXLINE(2177)		this->_hx___broadcastEvent( ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("enterFrame",f5,03,50,02),null(),null()));
+HXLINE(2178)		this->_hx___broadcastEvent( ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("frameConstructed",09,89,5d,98),null(),null()));
+HXLINE(2179)		this->_hx___broadcastEvent( ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("exitFrame",2f,64,48,12),null(),null()));
+HXLINE(2182)		this->_hx___renderable = true;
+HXLINE(2183)		this->_hx___enterFrame(this->_hx___deltaTime);
+HXLINE(2184)		this->_hx___deltaTime = 0;
+HXLINE(2186)		bool cancelled = this->_hx___render(context);
+HXLINE(2187)		if (cancelled) {
+HXLINE(2189)			this->window->onRender->cancel();
+            		}
+HXLINE(2192)		this->_hx___rendering = false;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeRender,(void))
+
+void Stage_obj::_hx___onLimeRenderContextLost(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2196___onLimeRenderContextLost)
+HXLINE(2197)		this->_hx___renderer = null();
+HXLINE(2198)		this->context3D = null();
+HXLINE(2200)		{
+HXLINE(2200)			 ::Dynamic stage3D = this->stage3Ds->iterator();
+HXDLIN(2200)			while(( (bool)(stage3D->__Field(HX_("hasNext",6d,a5,46,18),::hx::paccDynamic)()) )){
+HXLINE(2200)				 ::openfl::display::Stage3D stage3D1 = ( ( ::openfl::display::Stage3D)(stage3D->__Field(HX_("next",f3,84,02,49),::hx::paccDynamic)()) );
+HXLINE(2202)				stage3D1->_hx___lostContext();
+            			}
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,_hx___onLimeRenderContextLost,(void))
+
+void Stage_obj::_hx___onLimeRenderContextRestored( ::lime::graphics::RenderContext context){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2207___onLimeRenderContextRestored)
+HXLINE(2208)		this->_hx___createRenderer();
+HXLINE(2210)		{
+HXLINE(2210)			 ::Dynamic stage3D = this->stage3Ds->iterator();
+HXDLIN(2210)			while(( (bool)(stage3D->__Field(HX_("hasNext",6d,a5,46,18),::hx::paccDynamic)()) )){
+HXLINE(2210)				 ::openfl::display::Stage3D stage3D1 = ( ( ::openfl::display::Stage3D)(stage3D->__Field(HX_("next",f3,84,02,49),::hx::paccDynamic)()) );
+HXLINE(2212)				stage3D1->_hx___restoreContext();
+            			}
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeRenderContextRestored,(void))
+
+void Stage_obj::_hx___onLimeTextEdit( ::lime::ui::Window window,::String text,int start,int length){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2217___onLimeTextEdit)
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC4(Stage_obj,_hx___onLimeTextEdit,(void))
+
+void Stage_obj::_hx___onLimeTextInput( ::lime::ui::Window window,::String text){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2222___onLimeTextInput)
+HXLINE(2223)		bool _hx_tmp;
+HXDLIN(2223)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2223)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2223)			_hx_tmp = true;
+            		}
+HXDLIN(2223)		if (_hx_tmp) {
+HXLINE(2223)			return;
+            		}
+HXLINE(2225)		::Array< ::Dynamic> stack = ::Array_obj< ::Dynamic>::__new();
+HXLINE(2227)		if (::hx::IsNull( this->_hx___focus )) {
+HXLINE(2229)			this->_hx___getInteractive(stack);
+            		}
+            		else {
+HXLINE(2233)			this->_hx___focus->_hx___getInteractive(stack);
+            		}
+HXLINE(2236)		 ::openfl::events::TextEvent event =  ::openfl::events::TextEvent_obj::__alloc( HX_CTX ,HX_("textInput",1d,54,0b,57),true,true,text);
+HXLINE(2237)		if ((stack->length > 0)) {
+HXLINE(2239)			stack->reverse();
+HXLINE(2240)			this->_hx___dispatchStack(event,stack);
+            		}
+            		else {
+HXLINE(2244)			this->_hx___dispatchEvent(event);
+            		}
+HXLINE(2247)		if (event->isDefaultPrevented()) {
+HXLINE(2249)			window->onTextInput->cancel();
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC2(Stage_obj,_hx___onLimeTextInput,(void))
+
+void Stage_obj::_hx___onLimeTouchCancel( ::lime::ui::Touch touch){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2254___onLimeTouchCancel)
+HXLINE(2256)		bool isPrimaryTouchPoint = ::hx::IsInstanceEq( this->_hx___primaryTouch,touch );
+HXLINE(2257)		if (isPrimaryTouchPoint) {
+HXLINE(2259)			this->_hx___primaryTouch = null();
+            		}
+HXLINE(2262)		this->_hx___onTouch(HX_("touchEnd",5c,c5,09,00),touch,isPrimaryTouchPoint);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeTouchCancel,(void))
+
+void Stage_obj::_hx___onLimeTouchMove( ::lime::ui::Touch touch){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2267___onLimeTouchMove)
+HXDLIN(2267)		this->_hx___onTouch(HX_("touchMove",70,72,cd,0d),touch,::hx::IsInstanceEq( this->_hx___primaryTouch,touch ));
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeTouchMove,(void))
+
+void Stage_obj::_hx___onLimeTouchEnd( ::lime::ui::Touch touch){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2271___onLimeTouchEnd)
+HXLINE(2272)		bool isPrimaryTouchPoint = ::hx::IsInstanceEq( this->_hx___primaryTouch,touch );
+HXLINE(2273)		if (isPrimaryTouchPoint) {
+HXLINE(2275)			this->_hx___primaryTouch = null();
+            		}
+HXLINE(2278)		this->_hx___onTouch(HX_("touchEnd",5c,c5,09,00),touch,isPrimaryTouchPoint);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeTouchEnd,(void))
+
+void Stage_obj::_hx___onLimeTouchStart( ::lime::ui::Touch touch){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2282___onLimeTouchStart)
+HXLINE(2283)		if (::hx::IsNull( this->_hx___primaryTouch )) {
+HXLINE(2285)			this->_hx___primaryTouch = touch;
+            		}
+HXLINE(2288)		this->_hx___onTouch(HX_("touchBegin",ea,cd,e6,a9),touch,::hx::IsInstanceEq( this->_hx___primaryTouch,touch ));
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeTouchStart,(void))
+
+void Stage_obj::_hx___onLimeUpdate(int deltaTime){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2292___onLimeUpdate)
+HXLINE(2293)		this->_hx___deltaTime = deltaTime;
+HXLINE(2295)		this->_hx___dispatchPendingMouseEvent();
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeUpdate,(void))
+
+void Stage_obj::_hx___onLimeWindowActivate( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2300___onLimeWindowActivate)
+HXDLIN(2300)		bool _hx_tmp;
+HXDLIN(2300)		if (::hx::IsNotNull( this->window )) {
+HXDLIN(2300)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXDLIN(2300)			_hx_tmp = true;
+            		}
+HXDLIN(2300)		if (_hx_tmp) {
+HXDLIN(2300)			return;
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowActivate,(void))
+
+void Stage_obj::_hx___onLimeWindowClose( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2306___onLimeWindowClose)
+HXLINE(2307)		if (::hx::IsInstanceEq( this->window,window )) {
+HXLINE(2309)			this->window = null();
+            		}
+HXLINE(2312)		this->_hx___primaryTouch = null();
+HXLINE(2314)		 ::openfl::events::Event event = null();
+HXLINE(2320)		event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("deactivate",34,5c,01,3c),null(),null());
+HXLINE(2323)		this->_hx___broadcastEvent(event);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowClose,(void))
+
+void Stage_obj::_hx___onLimeWindowCreate( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2331___onLimeWindowCreate)
+HXLINE(2332)		bool _hx_tmp;
+HXDLIN(2332)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2332)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2332)			_hx_tmp = true;
+            		}
+HXDLIN(2332)		if (_hx_tmp) {
+HXLINE(2332)			return;
+            		}
+HXLINE(2334)		if (::hx::IsNotNull( window->context )) {
+HXLINE(2336)			this->_hx___createRenderer();
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowCreate,(void))
+
+void Stage_obj::_hx___onLimeWindowDeactivate( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2342___onLimeWindowDeactivate)
+HXDLIN(2342)		bool _hx_tmp;
+HXDLIN(2342)		if (::hx::IsNotNull( this->window )) {
+HXDLIN(2342)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXDLIN(2342)			_hx_tmp = true;
+            		}
+HXDLIN(2342)		if (_hx_tmp) {
+HXDLIN(2342)			return;
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowDeactivate,(void))
+
+void Stage_obj::_hx___onLimeWindowDropFile( ::lime::ui::Window window,::String file){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2348___onLimeWindowDropFile)
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC2(Stage_obj,_hx___onLimeWindowDropFile,(void))
+
+void Stage_obj::_hx___onLimeWindowEnter( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2351___onLimeWindowEnter)
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowEnter,(void))
+
+void Stage_obj::_hx___onLimeWindowExpose( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2356___onLimeWindowExpose)
+HXLINE(2357)		bool _hx_tmp;
+HXDLIN(2357)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2357)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2357)			_hx_tmp = true;
+            		}
+HXDLIN(2357)		if (_hx_tmp) {
+HXLINE(2357)			return;
+            		}
+HXLINE(2359)		this->_hx___renderDirty = true;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowExpose,(void))
+
+void Stage_obj::_hx___onLimeWindowFocusIn( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2363___onLimeWindowFocusIn)
+HXLINE(2364)		bool _hx_tmp;
+HXDLIN(2364)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2364)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2364)			_hx_tmp = true;
+            		}
+HXDLIN(2364)		if (_hx_tmp) {
+HXLINE(2364)			return;
+            		}
+HXLINE(2371)		 ::openfl::events::Event event = null();
+HXLINE(2377)		event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("activate",b3,1b,ac,e5),null(),null());
+HXLINE(2380)		this->_hx___broadcastEvent(event);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowFocusIn,(void))
+
+void Stage_obj::_hx___onLimeWindowFocusOut( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2392___onLimeWindowFocusOut)
+HXLINE(2393)		bool _hx_tmp;
+HXDLIN(2393)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2393)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2393)			_hx_tmp = true;
+            		}
+HXDLIN(2393)		if (_hx_tmp) {
+HXLINE(2393)			return;
+            		}
+HXLINE(2395)		this->_hx___primaryTouch = null();
+HXLINE(2397)		 ::openfl::events::Event event = null();
+HXLINE(2403)		event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("deactivate",34,5c,01,3c),null(),null());
+HXLINE(2406)		this->_hx___broadcastEvent(event);
+HXLINE(2412)		 ::openfl::display::InteractiveObject currentFocus = this->get_focus();
+HXLINE(2413)		this->set_focus(null());
+HXLINE(2414)		this->_hx___cacheFocus = currentFocus;
+HXLINE(2416)		::openfl::events::MouseEvent_obj::_hx___altKey = false;
+HXLINE(2417)		::openfl::events::MouseEvent_obj::_hx___commandKey = false;
+HXLINE(2418)		::openfl::events::MouseEvent_obj::_hx___ctrlKey = false;
+HXLINE(2419)		::openfl::events::MouseEvent_obj::_hx___shiftKey = false;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowFocusOut,(void))
+
+void Stage_obj::_hx___onLimeWindowFullscreen( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2423___onLimeWindowFullscreen)
+HXLINE(2424)		bool _hx_tmp;
+HXDLIN(2424)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2424)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2424)			_hx_tmp = true;
+            		}
+HXDLIN(2424)		if (_hx_tmp) {
+HXLINE(2424)			return;
+            		}
+HXLINE(2426)		this->_hx___resize();
+HXLINE(2428)		if (!(this->_hx___wasFullscreen)) {
+HXLINE(2430)			this->_hx___wasFullscreen = true;
+HXLINE(2431)			if (::hx::IsEq( this->_hx___displayState,2 )) {
+HXLINE(2431)				this->_hx___displayState = 1;
+            			}
+HXLINE(2432)			this->_hx___dispatchEvent( ::openfl::events::FullScreenEvent_obj::__alloc( HX_CTX ,HX_("fullScreen",5b,ae,48,2e),false,false,true,true));
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowFullscreen,(void))
+
+void Stage_obj::_hx___onLimeWindowLeave( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2437___onLimeWindowLeave)
+HXLINE(2438)		bool _hx_tmp;
+HXDLIN(2438)		bool _hx_tmp1;
+HXDLIN(2438)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2438)			_hx_tmp1 = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2438)			_hx_tmp1 = true;
+            		}
+HXDLIN(2438)		if (!(_hx_tmp1)) {
+HXLINE(2438)			_hx_tmp = ::openfl::events::MouseEvent_obj::_hx___buttonDown;
+            		}
+            		else {
+HXLINE(2438)			_hx_tmp = true;
+            		}
+HXDLIN(2438)		if (_hx_tmp) {
+HXLINE(2438)			return;
+            		}
+HXLINE(2440)		this->_hx___dispatchPendingMouseEvent();
+HXLINE(2442)		 ::openfl::events::Event event = null();
+HXLINE(2448)		event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("mouseLeave",92,28,20,90),null(),null());
+HXLINE(2451)		this->_hx___dispatchEvent(event);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowLeave,(void))
+
+void Stage_obj::_hx___onLimeWindowMinimize( ::lime::ui::Window window){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2460___onLimeWindowMinimize)
+HXDLIN(2460)		bool _hx_tmp;
+HXDLIN(2460)		if (::hx::IsNotNull( this->window )) {
+HXDLIN(2460)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXDLIN(2460)			_hx_tmp = true;
+            		}
+HXDLIN(2460)		if (_hx_tmp) {
+HXDLIN(2460)			return;
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowMinimize,(void))
+
+void Stage_obj::_hx___onLimeWindowMove( ::lime::ui::Window window,Float x,Float y){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2467___onLimeWindowMove)
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC3(Stage_obj,_hx___onLimeWindowMove,(void))
+
+void Stage_obj::_hx___onLimeWindowResize( ::lime::ui::Window window,int width,int height){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2472___onLimeWindowResize)
+HXLINE(2473)		bool _hx_tmp;
+HXDLIN(2473)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2473)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2473)			_hx_tmp = true;
+            		}
+HXDLIN(2473)		if (_hx_tmp) {
+HXLINE(2473)			return;
+            		}
+HXLINE(2475)		this->_hx___resize();
+HXLINE(2486)		bool _hx_tmp1;
+HXDLIN(2486)		if (this->_hx___wasFullscreen) {
+HXLINE(2486)			_hx_tmp1 = !(window->_hx___fullscreen);
+            		}
+            		else {
+HXLINE(2486)			_hx_tmp1 = false;
+            		}
+HXDLIN(2486)		if (_hx_tmp1) {
+HXLINE(2488)			this->_hx___wasFullscreen = false;
+HXLINE(2489)			this->_hx___displayState = 2;
+HXLINE(2490)			this->_hx___dispatchEvent( ::openfl::events::FullScreenEvent_obj::__alloc( HX_CTX ,HX_("fullScreen",5b,ae,48,2e),false,false,false,true));
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC3(Stage_obj,_hx___onLimeWindowResize,(void))
+
+void Stage_obj::_hx___onLimeWindowRestore( ::lime::ui::Window window){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2495___onLimeWindowRestore)
+HXLINE(2496)		bool _hx_tmp;
+HXDLIN(2496)		if (::hx::IsNotNull( this->window )) {
+HXLINE(2496)			_hx_tmp = ::hx::IsInstanceNotEq( this->window,window );
+            		}
+            		else {
+HXLINE(2496)			_hx_tmp = true;
+            		}
+HXDLIN(2496)		if (_hx_tmp) {
+HXLINE(2496)			return;
+            		}
+HXLINE(2498)		bool _hx_tmp1;
+HXDLIN(2498)		if (this->_hx___wasFullscreen) {
+HXLINE(2498)			_hx_tmp1 = !(window->_hx___fullscreen);
+            		}
+            		else {
+HXLINE(2498)			_hx_tmp1 = false;
+            		}
+HXDLIN(2498)		if (_hx_tmp1) {
+HXLINE(2500)			this->_hx___wasFullscreen = false;
+HXLINE(2501)			this->_hx___displayState = 2;
+HXLINE(2502)			this->_hx___dispatchEvent( ::openfl::events::FullScreenEvent_obj::__alloc( HX_CTX ,HX_("fullScreen",5b,ae,48,2e),false,false,false,true));
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___onLimeWindowRestore,(void))
+
+void Stage_obj::_hx___onMouse(::String type,Float x,Float y,int button){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_2508___onMouse)
+HXLINE(2509)		if ((button > 2)) {
+HXLINE(2509)			return;
+            		}
+HXLINE(2511)		 ::openfl::geom::Point targetPoint = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(2512)		targetPoint->setTo(x,y);
+HXLINE(2513)		{
+HXLINE(2513)			 ::openfl::geom::Matrix _this = this->_hx___displayMatrix;
+HXDLIN(2513)			Float norm = ((_this->a * _this->d) - (_this->b * _this->c));
+HXDLIN(2513)			if ((norm == 0)) {
+HXLINE(2513)				targetPoint->x = -(_this->tx);
+HXDLIN(2513)				targetPoint->y = -(_this->ty);
+            			}
+            			else {
+HXLINE(2513)				Float px = ((((Float)1.0) / norm) * ((_this->c * (_this->ty - targetPoint->y)) + (_this->d * (targetPoint->x - _this->tx))));
+HXDLIN(2513)				targetPoint->y = ((((Float)1.0) / norm) * ((_this->a * (targetPoint->y - _this->ty)) + (_this->b * (_this->tx - targetPoint->x))));
+HXDLIN(2513)				targetPoint->x = px;
+            			}
+            		}
+HXLINE(2515)		this->_hx___mouseX = targetPoint->x;
+HXLINE(2516)		this->_hx___mouseY = targetPoint->y;
+HXLINE(2518)		::Array< ::Dynamic> stack = ::Array_obj< ::Dynamic>::__new(0);
+HXLINE(2519)		 ::openfl::display::InteractiveObject target = null();
+HXLINE(2521)		if (this->_hx___hitTest(this->_hx___mouseX,this->_hx___mouseY,true,stack,true,::hx::ObjectPtr<OBJ_>(this))) {
+HXLINE(2523)			target = ( ( ::openfl::display::InteractiveObject)(stack->__get((stack->length - 1)).StaticCast<  ::openfl::display::DisplayObject >()) );
+            		}
+            		else {
+HXLINE(2527)			target = ::hx::ObjectPtr<OBJ_>(this);
+HXLINE(2528)			stack = ::Array_obj< ::Dynamic>::__new(1)->init(0,::hx::ObjectPtr<OBJ_>(this));
+            		}
+HXLINE(2531)		if (::hx::IsNull( target )) {
+HXLINE(2531)			target = ::hx::ObjectPtr<OBJ_>(this);
+            		}
+HXLINE(2533)		::String clickType = null();
+HXLINE(2534)		bool supportsClickCount = false;
+HXLINE(2536)		::String _hx_switch_0 = type;
+            		if (  (_hx_switch_0==HX_("middleMouseDown",12,2b,fe,01)) ){
+HXLINE(2583)			this->_hx___mouseDownMiddle = target;
+HXLINE(2584)			supportsClickCount = true;
+HXLINE(2582)			goto _hx_goto_96;
+            		}
+            		if (  (_hx_switch_0==HX_("middleMouseUp",0b,8d,f5,3a)) ){
+HXLINE(2628)			if (::hx::IsInstanceEq( this->_hx___mouseDownMiddle,target )) {
+HXLINE(2630)				clickType = HX_("middleClick",b3,e4,e5,43);
+            			}
+HXLINE(2633)			this->_hx___mouseDownMiddle = null();
+HXLINE(2634)			supportsClickCount = true;
+HXLINE(2627)			goto _hx_goto_96;
+            		}
+            		if (  (_hx_switch_0==HX_("mouseDown",27,b1,c2,ee)) ){
+HXLINE(2539)			if (::hx::IsNotNull( this->get_focus() )) {
+HXLINE(2541)				if (::hx::IsInstanceNotEq( this->get_focus(),target )) {
+HXLINE(2543)					 ::openfl::events::FocusEvent focusEvent =  ::openfl::events::FocusEvent_obj::__alloc( HX_CTX ,HX_("mouseFocusChange",43,f1,81,96),true,true,target,false,0);
+HXLINE(2544)					this->get_focus()->dispatchEvent(focusEvent);
+HXLINE(2546)					if (!(focusEvent->isDefaultPrevented())) {
+HXLINE(2548)						if (target->_hx___allowMouseFocus()) {
+HXLINE(2550)							this->set_focus(target);
+            						}
+            						else {
+HXLINE(2554)							this->set_focus(null());
+            						}
+            					}
+            				}
+            			}
+            			else {
+HXLINE(2561)				if (target->_hx___allowMouseFocus()) {
+HXLINE(2563)					this->set_focus(target);
+            				}
+            				else {
+HXLINE(2567)					this->set_focus(null());
+            				}
+            			}
+HXLINE(2571)			this->_hx___mouseDownLeft = target;
+HXLINE(2572)			if (::hx::IsInstanceNotEq( this->_hx___lastClickTarget,target )) {
+HXLINE(2576)				this->_hx___lastClickTarget = null();
+HXLINE(2577)				this->_hx___lastClickTime = 0;
+            			}
+HXLINE(2579)			::openfl::events::MouseEvent_obj::_hx___buttonDown = true;
+HXLINE(2580)			supportsClickCount = true;
+HXLINE(2538)			goto _hx_goto_96;
+            		}
+            		if (  (_hx_switch_0==HX_("mouseUp",e0,f3,72,c0)) ){
+HXLINE(2591)			if (::hx::IsNotNull( this->_hx___mouseDownLeft )) {
+HXLINE(2593)				::openfl::events::MouseEvent_obj::_hx___buttonDown = false;
+HXLINE(2595)				if (::hx::IsInstanceEq( this->_hx___mouseDownLeft,target )) {
+HXLINE(2597)					clickType = HX_("click",48,7c,5e,48);
+            				}
+            				else {
+HXLINE(2601)					 ::openfl::events::MouseEvent event = null();
+HXLINE(2613)					Float event1 = this->_hx___mouseX;
+HXDLIN(2613)					Float event2 = this->_hx___mouseY;
+HXDLIN(2613)					event = ::openfl::events::MouseEvent_obj::_hx___create(HX_("releaseOutside",1e,86,e3,ad),1,0,event1,event2, ::openfl::geom::Point_obj::__alloc( HX_CTX ,this->_hx___mouseX,this->_hx___mouseY),::hx::ObjectPtr<OBJ_>(this),null());
+HXLINE(2616)					this->_hx___mouseDownLeft->dispatchEvent(event);
+            				}
+HXLINE(2623)				this->_hx___mouseDownLeft = null();
+            			}
+HXLINE(2625)			supportsClickCount = true;
+HXLINE(2590)			goto _hx_goto_96;
+            		}
+            		if (  (_hx_switch_0==HX_("rightMouseDown",ab,29,d7,cd)) ){
+HXLINE(2587)			this->_hx___mouseDownRight = target;
+HXLINE(2588)			supportsClickCount = true;
+HXLINE(2586)			goto _hx_goto_96;
+            		}
+            		if (  (_hx_switch_0==HX_("rightMouseUp",64,83,21,ab)) ){
+HXLINE(2637)			if (::hx::IsInstanceEq( this->_hx___mouseDownRight,target )) {
+HXLINE(2639)				clickType = HX_("rightClick",cc,62,23,4b);
+            			}
+HXLINE(2642)			this->_hx___mouseDownRight = null();
+HXLINE(2643)			supportsClickCount = true;
+HXLINE(2636)			goto _hx_goto_96;
+            		}
+            		/* default */{
+            		}
+            		_hx_goto_96:;
+HXLINE(2648)		 ::openfl::geom::Point localPoint = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(2649)		 ::openfl::events::MouseEvent event3 = null();
+HXLINE(2651)		int clickCount;
+HXDLIN(2651)		if (supportsClickCount) {
+HXLINE(2651)			clickCount = this->window->clickCount;
+            		}
+            		else {
+HXLINE(2651)			clickCount = 0;
+            		}
+HXLINE(2663)		Float event4 = this->_hx___mouseX;
+HXDLIN(2663)		Float event5 = this->_hx___mouseY;
+HXDLIN(2663)		event3 = ::openfl::events::MouseEvent_obj::_hx___create(type,button,clickCount,event4,event5,target->_hx___globalToLocal(targetPoint,localPoint),target,null());
+HXLINE(2666)		this->_hx___dispatchStack(event3,stack);
+HXLINE(2668)		if (event3->_hx___updateAfterEventFlag) {
+HXLINE(2670)			this->_hx___renderAfterEvent();
+            		}
+HXLINE(2677)		if (::hx::IsNotNull( clickType )) {
+HXLINE(2690)			Float event6 = this->_hx___mouseX;
+HXDLIN(2690)			Float event7 = this->_hx___mouseY;
+HXDLIN(2690)			event3 = ::openfl::events::MouseEvent_obj::_hx___create(clickType,button,0,event6,event7,target->_hx___globalToLocal(targetPoint,localPoint),target,null());
+HXLINE(2693)			this->_hx___dispatchStack(event3,stack);
+HXLINE(2695)			if (event3->_hx___updateAfterEventFlag) {
+HXLINE(2697)				this->_hx___renderAfterEvent();
+            			}
+HXLINE(2704)			if ((type == HX_("mouseUp",e0,f3,72,c0))) {
+HXLINE(2706)				if (target->doubleClickEnabled) {
+HXLINE(2708)					int currentTime = ::openfl::Lib_obj::getTimer();
+HXLINE(2709)					bool _hx_tmp;
+HXDLIN(2709)					if (((currentTime - this->_hx___lastClickTime) < 500)) {
+HXLINE(2709)						_hx_tmp = ::hx::IsInstanceEq( target,this->_hx___lastClickTarget );
+            					}
+            					else {
+HXLINE(2709)						_hx_tmp = false;
+            					}
+HXDLIN(2709)					if (_hx_tmp) {
+HXLINE(2722)						Float event8 = this->_hx___mouseX;
+HXDLIN(2722)						Float event9 = this->_hx___mouseY;
+HXDLIN(2722)						event3 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("doubleClick",77,03,76,cd),button,0,event8,event9,target->_hx___globalToLocal(targetPoint,localPoint),target,null());
+HXLINE(2726)						this->_hx___dispatchStack(event3,stack);
+HXLINE(2728)						if (event3->_hx___updateAfterEventFlag) {
+HXLINE(2730)							this->_hx___renderAfterEvent();
+            						}
+HXLINE(2737)						this->_hx___lastClickTime = 0;
+HXLINE(2738)						this->_hx___lastClickTarget = null();
+            					}
+            					else {
+HXLINE(2744)						this->_hx___lastClickTarget = target;
+HXLINE(2745)						this->_hx___lastClickTime = currentTime;
+            					}
+            				}
+            				else {
+HXLINE(2752)					this->_hx___lastClickTarget = null();
+HXLINE(2753)					this->_hx___lastClickTime = 0;
+            				}
+            			}
+            		}
+HXLINE(2758)		bool _hx_tmp1;
+HXDLIN(2758)		if ((::openfl::ui::Mouse_obj::_hx___cursor == HX_("auto",6f,df,76,40))) {
+HXLINE(2758)			_hx_tmp1 = !(::openfl::ui::Mouse_obj::_hx___hidden);
+            		}
+            		else {
+HXLINE(2758)			_hx_tmp1 = false;
+            		}
+HXDLIN(2758)		if (_hx_tmp1) {
+HXLINE(2760)			::String cursor = null();
+HXLINE(2762)			if (::hx::IsNotNull( this->_hx___mouseDownLeft )) {
+HXLINE(2764)				cursor = this->_hx___mouseDownLeft->_hx___getCursor();
+            			}
+            			else {
+HXLINE(2768)				int _g = 0;
+HXDLIN(2768)				while((_g < stack->length)){
+HXLINE(2768)					 ::openfl::display::DisplayObject target1 = stack->__get(_g).StaticCast<  ::openfl::display::DisplayObject >();
+HXDLIN(2768)					_g = (_g + 1);
+HXLINE(2770)					cursor = target1->_hx___getCursor();
+HXLINE(2772)					bool _hx_tmp2;
+HXDLIN(2772)					if (::hx::IsNotNull( cursor )) {
+HXLINE(2772)						_hx_tmp2 = ::hx::IsNotNull( this->window );
+            					}
+            					else {
+HXLINE(2772)						_hx_tmp2 = false;
+            					}
+HXDLIN(2772)					if (_hx_tmp2) {
+HXLINE(2774)						 ::lime::ui::Window _hx_tmp3 = this->window;
+HXDLIN(2774)						_hx_tmp3->set_cursor(::openfl::ui::_MouseCursor::MouseCursor_Impl__obj::toLimeCursor(cursor));
+HXLINE(2775)						goto _hx_goto_97;
+            					}
+            				}
+            				_hx_goto_97:;
+            			}
+HXLINE(2780)			bool _hx_tmp4;
+HXDLIN(2780)			if (::hx::IsNull( cursor )) {
+HXLINE(2780)				_hx_tmp4 = ::hx::IsNotNull( this->window );
+            			}
+            			else {
+HXLINE(2780)				_hx_tmp4 = false;
+            			}
+HXDLIN(2780)			if (_hx_tmp4) {
+HXLINE(2782)				this->window->set_cursor(::lime::ui::MouseCursor_obj::ARROW_dyn());
+            			}
+            		}
+HXLINE(2786)		 ::openfl::events::MouseEvent event10;
+HXLINE(2788)		if (::hx::IsInstanceNotEq( target,this->_hx___mouseOverTarget )) {
+HXLINE(2790)			if (::hx::IsNotNull( this->_hx___mouseOverTarget )) {
+HXLINE(2803)				Float event11 = this->_hx___mouseX;
+HXDLIN(2803)				Float event12 = this->_hx___mouseY;
+HXDLIN(2803)				 ::openfl::geom::Point event13 = this->_hx___mouseOverTarget->_hx___globalToLocal(targetPoint,localPoint);
+HXDLIN(2803)				event10 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("mouseOut",69,e7,1d,a4),button,0,event11,event12,event13,this->_hx___mouseOverTarget,null());
+HXLINE(2807)				this->_hx___dispatchStack(event10,this->_hx___mouseOutStack);
+HXLINE(2809)				if (event10->_hx___updateAfterEventFlag) {
+HXLINE(2811)					this->_hx___renderAfterEvent();
+            				}
+            			}
+            		}
+HXLINE(2820)		 ::openfl::display::DisplayObject item;
+HXDLIN(2820)		int i = 0;
+HXLINE(2821)		while((i < this->_hx___rollOutStack->length)){
+HXLINE(2823)			item = this->_hx___rollOutStack->__get(i).StaticCast<  ::openfl::display::DisplayObject >();
+HXLINE(2824)			if ((stack->indexOf(item,null()) == -1)) {
+HXLINE(2826)				this->_hx___rollOutStack->remove(item);
+HXLINE(2839)				Float event14 = this->_hx___mouseX;
+HXDLIN(2839)				Float event15 = this->_hx___mouseY;
+HXDLIN(2839)				event10 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("rollOut",11,f9,11,5d),button,0,event14,event15,this->_hx___mouseOverTarget->_hx___globalToLocal(targetPoint,localPoint),( ( ::openfl::display::InteractiveObject)(item) ),null());
+HXLINE(2842)				event10->bubbles = false;
+HXLINE(2844)				this->_hx___dispatchTarget(item,event10);
+HXLINE(2846)				if (event10->_hx___updateAfterEventFlag) {
+HXLINE(2848)					this->_hx___renderAfterEvent();
+            				}
+            			}
+            			else {
+HXLINE(2857)				i = (i + 1);
+            			}
+            		}
+HXLINE(2861)		{
+HXLINE(2861)			int _g1 = 0;
+HXDLIN(2861)			while((_g1 < stack->length)){
+HXLINE(2861)				 ::openfl::display::DisplayObject item1 = stack->__get(_g1).StaticCast<  ::openfl::display::DisplayObject >();
+HXDLIN(2861)				_g1 = (_g1 + 1);
+HXLINE(2863)				bool _hx_tmp5;
+HXDLIN(2863)				if ((this->_hx___rollOutStack->indexOf(item1,null()) == -1)) {
+HXLINE(2863)					_hx_tmp5 = ::hx::IsNotNull( this->_hx___mouseOverTarget );
+            				}
+            				else {
+HXLINE(2863)					_hx_tmp5 = false;
+            				}
+HXDLIN(2863)				if (_hx_tmp5) {
+HXLINE(2865)					if (item1->hasEventListener(HX_("rollOver",71,ab,a8,12))) {
+HXLINE(2879)						Float event16 = this->_hx___mouseX;
+HXDLIN(2879)						Float event17 = this->_hx___mouseY;
+HXDLIN(2879)						event10 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("rollOver",71,ab,a8,12),button,0,event16,event17,this->_hx___mouseOverTarget->_hx___globalToLocal(targetPoint,localPoint),( ( ::openfl::display::InteractiveObject)(item1) ),null());
+HXLINE(2882)						event10->bubbles = false;
+HXLINE(2884)						this->_hx___dispatchTarget(item1,event10);
+HXLINE(2886)						if (event10->_hx___updateAfterEventFlag) {
+HXLINE(2888)							this->_hx___renderAfterEvent();
+            						}
+            					}
+HXLINE(2896)					bool _hx_tmp6;
+HXDLIN(2896)					if (!(item1->hasEventListener(HX_("rollOut",11,f9,11,5d)))) {
+HXLINE(2896)						_hx_tmp6 = item1->hasEventListener(HX_("rollOver",71,ab,a8,12));
+            					}
+            					else {
+HXLINE(2896)						_hx_tmp6 = true;
+            					}
+HXDLIN(2896)					if (_hx_tmp6) {
+HXLINE(2898)						this->_hx___rollOutStack->push(item1);
+            					}
+            				}
+            			}
+            		}
+HXLINE(2903)		if (::hx::IsInstanceNotEq( target,this->_hx___mouseOverTarget )) {
+HXLINE(2905)			if (::hx::IsNotNull( target )) {
+HXLINE(2919)				Float event18 = this->_hx___mouseX;
+HXDLIN(2919)				Float event19 = this->_hx___mouseY;
+HXDLIN(2919)				event10 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("mouseOver",19,4a,0d,f6),button,0,event18,event19,target->_hx___globalToLocal(targetPoint,localPoint),target,null());
+HXLINE(2922)				this->_hx___dispatchStack(event10,stack);
+HXLINE(2924)				if (event10->_hx___updateAfterEventFlag) {
+HXLINE(2926)					this->_hx___renderAfterEvent();
+            				}
+            			}
+HXLINE(2934)			this->_hx___mouseOverTarget = target;
+HXLINE(2935)			this->_hx___mouseOutStack = stack;
+            		}
+HXLINE(2938)		if (::hx::IsNotNull( this->_hx___dragObject )) {
+HXLINE(2940)			this->_hx___drag(targetPoint);
+HXLINE(2942)			 ::openfl::display::DisplayObject dropTarget = null();
+HXLINE(2944)			if (::hx::IsInstanceEq( this->_hx___mouseOverTarget,this->_hx___dragObject )) {
+HXLINE(2946)				bool cacheMouseEnabled = this->_hx___dragObject->mouseEnabled;
+HXLINE(2947)				bool cacheMouseChildren = this->_hx___dragObject->mouseChildren;
+HXLINE(2949)				this->_hx___dragObject->mouseEnabled = false;
+HXLINE(2950)				this->_hx___dragObject->mouseChildren = false;
+HXLINE(2952)				::Array< ::Dynamic> stack1 = ::Array_obj< ::Dynamic>::__new(0);
+HXLINE(2954)				if (this->_hx___hitTest(this->_hx___mouseX,this->_hx___mouseY,true,stack1,true,::hx::ObjectPtr<OBJ_>(this))) {
+HXLINE(2956)					dropTarget = stack1->__get((stack1->length - 1)).StaticCast<  ::openfl::display::DisplayObject >();
+            				}
+HXLINE(2959)				this->_hx___dragObject->mouseEnabled = cacheMouseEnabled;
+HXLINE(2960)				this->_hx___dragObject->mouseChildren = cacheMouseChildren;
+            			}
+            			else {
+HXLINE(2962)				if (::hx::IsInstanceNotEq( this->_hx___mouseOverTarget,::hx::ObjectPtr<OBJ_>(this) )) {
+HXLINE(2964)					dropTarget = this->_hx___mouseOverTarget;
+            				}
+            			}
+HXLINE(2967)			this->_hx___dragObject->dropTarget = dropTarget;
+            		}
+HXLINE(2970)		::openfl::geom::Point_obj::_hx___pool->release(targetPoint);
+HXLINE(2971)		::openfl::geom::Point_obj::_hx___pool->release(localPoint);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC4(Stage_obj,_hx___onMouse,(void))
+
+void Stage_obj::_hx___onMouseWheel(Float deltaX,Float deltaY, ::lime::ui::MouseWheelMode deltaMode){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_2976___onMouseWheel)
+HXLINE(2977)		Float x = this->_hx___mouseX;
+HXLINE(2978)		Float y = this->_hx___mouseY;
+HXLINE(2980)		::Array< ::Dynamic> stack = ::Array_obj< ::Dynamic>::__new(0);
+HXLINE(2981)		 ::openfl::display::InteractiveObject target = null();
+HXLINE(2983)		if (this->_hx___hitTest(this->_hx___mouseX,this->_hx___mouseY,true,stack,true,::hx::ObjectPtr<OBJ_>(this))) {
+HXLINE(2985)			target = ( ( ::openfl::display::InteractiveObject)(stack->__get((stack->length - 1)).StaticCast<  ::openfl::display::DisplayObject >()) );
+            		}
+            		else {
+HXLINE(2989)			target = ::hx::ObjectPtr<OBJ_>(this);
+HXLINE(2990)			stack = ::Array_obj< ::Dynamic>::__new(1)->init(0,::hx::ObjectPtr<OBJ_>(this));
+            		}
+HXLINE(2993)		if (::hx::IsNull( target )) {
+HXLINE(2993)			target = ::hx::ObjectPtr<OBJ_>(this);
+            		}
+HXLINE(2994)		 ::openfl::geom::Point targetPoint = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(2995)		targetPoint->setTo(x,y);
+HXLINE(2996)		{
+HXLINE(2996)			 ::openfl::geom::Matrix _this = this->_hx___displayMatrix;
+HXDLIN(2996)			Float norm = ((_this->a * _this->d) - (_this->b * _this->c));
+HXDLIN(2996)			if ((norm == 0)) {
+HXLINE(2996)				targetPoint->x = -(_this->tx);
+HXDLIN(2996)				targetPoint->y = -(_this->ty);
+            			}
+            			else {
+HXLINE(2996)				Float px = ((((Float)1.0) / norm) * ((_this->c * (_this->ty - targetPoint->y)) + (_this->d * (targetPoint->x - _this->tx))));
+HXDLIN(2996)				targetPoint->y = ((((Float)1.0) / norm) * ((_this->a * (targetPoint->y - _this->ty)) + (_this->b * (_this->tx - targetPoint->x))));
+HXDLIN(2996)				targetPoint->x = px;
+            			}
+            		}
+HXLINE(2997)		int delta = ::Std_obj::_hx_int(deltaY);
+HXLINE(2999)		Float event = this->_hx___mouseX;
+HXDLIN(2999)		Float event1 = this->_hx___mouseY;
+HXDLIN(2999)		 ::openfl::events::MouseEvent event2 = ::openfl::events::MouseEvent_obj::_hx___create(HX_("mouseWheel",36,28,87,e7),0,0,event,event1,target->_hx___globalToLocal(targetPoint,targetPoint),target,delta);
+HXLINE(3000)		event2->cancelable = true;
+HXLINE(3001)		this->_hx___dispatchStack(event2,stack);
+HXLINE(3002)		if (event2->isDefaultPrevented()) {
+HXLINE(3002)			this->window->onMouseWheel->cancel();
+            		}
+HXLINE(3004)		if (event2->_hx___updateAfterEventFlag) {
+HXLINE(3006)			this->_hx___renderAfterEvent();
+            		}
+HXLINE(3009)		::openfl::geom::Point_obj::_hx___pool->release(targetPoint);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC3(Stage_obj,_hx___onMouseWheel,(void))
+
+void Stage_obj::_hx___onTouch(::String type, ::lime::ui::Touch touch,bool isPrimaryTouchPoint){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3015___onTouch)
+HXLINE(3016)		 ::openfl::geom::Point targetPoint = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(3017)		targetPoint->setTo(( (Float)(::Math_obj::round(((touch->x * ( (Float)(this->window->_hx___width) )) * this->window->_hx___scale))) ),( (Float)(::Math_obj::round(((touch->y * ( (Float)(this->window->_hx___height) )) * this->window->_hx___scale))) ));
+HXLINE(3018)		{
+HXLINE(3018)			 ::openfl::geom::Matrix _this = this->_hx___displayMatrix;
+HXDLIN(3018)			Float norm = ((_this->a * _this->d) - (_this->b * _this->c));
+HXDLIN(3018)			if ((norm == 0)) {
+HXLINE(3018)				targetPoint->x = -(_this->tx);
+HXDLIN(3018)				targetPoint->y = -(_this->ty);
+            			}
+            			else {
+HXLINE(3018)				Float px = ((((Float)1.0) / norm) * ((_this->c * (_this->ty - targetPoint->y)) + (_this->d * (targetPoint->x - _this->tx))));
+HXDLIN(3018)				targetPoint->y = ((((Float)1.0) / norm) * ((_this->a * (targetPoint->y - _this->ty)) + (_this->b * (_this->tx - targetPoint->x))));
+HXDLIN(3018)				targetPoint->x = px;
+            			}
+            		}
+HXLINE(3020)		Float touchX = targetPoint->x;
+HXLINE(3021)		Float touchY = targetPoint->y;
+HXLINE(3023)		::Array< ::Dynamic> stack = ::Array_obj< ::Dynamic>::__new(0);
+HXLINE(3024)		 ::openfl::display::InteractiveObject target = null();
+HXLINE(3026)		if (this->_hx___hitTest(touchX,touchY,false,stack,true,::hx::ObjectPtr<OBJ_>(this))) {
+HXLINE(3028)			target = ( ( ::openfl::display::InteractiveObject)(stack->__get((stack->length - 1)).StaticCast<  ::openfl::display::DisplayObject >()) );
+            		}
+            		else {
+HXLINE(3032)			target = ::hx::ObjectPtr<OBJ_>(this);
+HXLINE(3033)			stack = ::Array_obj< ::Dynamic>::__new(1)->init(0,::hx::ObjectPtr<OBJ_>(this));
+            		}
+HXLINE(3036)		if (::hx::IsNull( target )) {
+HXLINE(3036)			target = ::hx::ObjectPtr<OBJ_>(this);
+            		}
+HXLINE(3038)		int touchId = touch->id;
+HXLINE(3039)		 ::openfl::utils::_internal::TouchData touchData = null();
+HXLINE(3041)		if (this->_hx___touchData->exists(touchId)) {
+HXLINE(3043)			touchData = ( ( ::openfl::utils::_internal::TouchData)(this->_hx___touchData->get(touchId)) );
+            		}
+            		else {
+HXLINE(3047)			touchData = ::openfl::utils::_internal::TouchData_obj::_hx___pool->get().StaticCast<  ::openfl::utils::_internal::TouchData >();
+HXLINE(3048)			touchData->reset();
+HXLINE(3049)			touchData->touch = touch;
+HXLINE(3050)			this->_hx___touchData->set(touchId,touchData);
+            		}
+HXLINE(3053)		::String touchType = null();
+HXLINE(3054)		bool releaseTouchData = false;
+HXLINE(3056)		::String _hx_switch_0 = type;
+            		if (  (_hx_switch_0==HX_("touchBegin",ea,cd,e6,a9)) ){
+HXLINE(3059)			touchData->touchDownTarget = target;
+HXDLIN(3059)			goto _hx_goto_102;
+            		}
+            		if (  (_hx_switch_0==HX_("touchEnd",5c,c5,09,00)) ){
+HXLINE(3062)			if (::hx::IsInstanceEq( touchData->touchDownTarget,target )) {
+HXLINE(3064)				touchType = HX_("touchTap",e4,1b,15,00);
+            			}
+HXLINE(3067)			touchData->touchDownTarget = null();
+HXLINE(3068)			releaseTouchData = true;
+HXLINE(3061)			goto _hx_goto_102;
+            		}
+            		/* default */{
+            		}
+            		_hx_goto_102:;
+HXLINE(3073)		 ::openfl::geom::Point localPoint = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(3074)		 ::openfl::events::TouchEvent touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(type,null(),touchX,touchY,target->_hx___globalToLocal(targetPoint,localPoint),target);
+HXLINE(3075)		touchEvent->touchPointID = touchId;
+HXLINE(3076)		touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3077)		touchEvent->pressure = touch->pressure;
+HXLINE(3079)		this->_hx___dispatchStack(touchEvent,stack);
+HXLINE(3081)		if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3083)			this->_hx___renderAfterEvent();
+            		}
+HXLINE(3086)		if (::hx::IsNotNull( touchType )) {
+HXLINE(3088)			touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(touchType,null(),touchX,touchY,target->_hx___globalToLocal(targetPoint,localPoint),target);
+HXLINE(3089)			touchEvent->touchPointID = touchId;
+HXLINE(3090)			touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3091)			touchEvent->pressure = touch->pressure;
+HXLINE(3093)			this->_hx___dispatchStack(touchEvent,stack);
+HXLINE(3095)			if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3097)				this->_hx___renderAfterEvent();
+            			}
+            		}
+HXLINE(3101)		 ::openfl::display::InteractiveObject touchOverTarget = touchData->touchOverTarget;
+HXLINE(3103)		bool _hx_tmp;
+HXDLIN(3103)		if (::hx::IsInstanceNotEq( target,touchOverTarget )) {
+HXLINE(3103)			_hx_tmp = ::hx::IsNotNull( touchOverTarget );
+            		}
+            		else {
+HXLINE(3103)			_hx_tmp = false;
+            		}
+HXDLIN(3103)		if (_hx_tmp) {
+HXLINE(3105)			touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(HX_("touchOut",0f,62,11,00),null(),touchX,touchY,touchOverTarget->_hx___globalToLocal(targetPoint,localPoint),touchOverTarget);
+HXLINE(3107)			touchEvent->touchPointID = touchId;
+HXLINE(3108)			touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3109)			touchEvent->pressure = touch->pressure;
+HXLINE(3111)			this->_hx___dispatchTarget(touchOverTarget,touchEvent);
+HXLINE(3113)			if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3115)				this->_hx___renderAfterEvent();
+            			}
+            		}
+HXLINE(3119)		::Array< ::Dynamic> touchOutStack = touchData->rollOutStack;
+HXLINE(3120)		 ::openfl::display::DisplayObject item;
+HXDLIN(3120)		int i = 0;
+HXLINE(3121)		while((i < touchOutStack->length)){
+HXLINE(3123)			item = touchOutStack->__get(i).StaticCast<  ::openfl::display::DisplayObject >();
+HXLINE(3124)			if ((stack->indexOf(item,null()) == -1)) {
+HXLINE(3126)				touchOutStack->remove(item);
+HXLINE(3128)				touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(HX_("touchRollOut",12,0f,74,87),null(),touchX,touchY,touchOverTarget->_hx___globalToLocal(targetPoint,localPoint),touchOverTarget);
+HXLINE(3130)				touchEvent->touchPointID = touchId;
+HXLINE(3131)				touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3132)				touchEvent->bubbles = false;
+HXLINE(3133)				touchEvent->pressure = touch->pressure;
+HXLINE(3135)				this->_hx___dispatchTarget(item,touchEvent);
+HXLINE(3137)				if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3139)					this->_hx___renderAfterEvent();
+            				}
+            			}
+            			else {
+HXLINE(3144)				i = (i + 1);
+            			}
+            		}
+HXLINE(3148)		{
+HXLINE(3148)			int _g = 0;
+HXDLIN(3148)			while((_g < stack->length)){
+HXLINE(3148)				 ::openfl::display::DisplayObject item1 = stack->__get(_g).StaticCast<  ::openfl::display::DisplayObject >();
+HXDLIN(3148)				_g = (_g + 1);
+HXLINE(3150)				if ((touchOutStack->indexOf(item1,null()) == -1)) {
+HXLINE(3152)					if (item1->hasEventListener(HX_("touchRollOver",50,d6,19,fe))) {
+HXLINE(3154)						touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(HX_("touchRollOver",50,d6,19,fe),null(),touchX,touchY,touchOverTarget->_hx___globalToLocal(targetPoint,localPoint),( ( ::openfl::display::InteractiveObject)(item1) ));
+HXLINE(3156)						touchEvent->touchPointID = touchId;
+HXLINE(3157)						touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3158)						touchEvent->bubbles = false;
+HXLINE(3159)						touchEvent->pressure = touch->pressure;
+HXLINE(3161)						this->_hx___dispatchTarget(item1,touchEvent);
+HXLINE(3163)						if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3165)							this->_hx___renderAfterEvent();
+            						}
+            					}
+HXLINE(3169)					if (item1->hasEventListener(HX_("touchRollOut",12,0f,74,87))) {
+HXLINE(3171)						touchOutStack->push(item1);
+            					}
+            				}
+            			}
+            		}
+HXLINE(3176)		if (::hx::IsInstanceNotEq( target,touchOverTarget )) {
+HXLINE(3178)			if (::hx::IsNotNull( target )) {
+HXLINE(3180)				touchEvent = ::openfl::events::TouchEvent_obj::_hx___create(HX_("touchOver",b3,20,25,0f),null(),touchX,touchY,target->_hx___globalToLocal(targetPoint,localPoint),target);
+HXLINE(3181)				touchEvent->touchPointID = touchId;
+HXLINE(3182)				touchEvent->isPrimaryTouchPoint = isPrimaryTouchPoint;
+HXLINE(3183)				touchEvent->bubbles = true;
+HXLINE(3184)				touchEvent->pressure = touch->pressure;
+HXLINE(3186)				this->_hx___dispatchTarget(target,touchEvent);
+HXLINE(3188)				if (touchEvent->_hx___updateAfterEventFlag) {
+HXLINE(3190)					this->_hx___renderAfterEvent();
+            				}
+            			}
+HXLINE(3194)			touchData->touchOverTarget = target;
+            		}
+HXLINE(3197)		::openfl::geom::Point_obj::_hx___pool->release(targetPoint);
+HXLINE(3198)		::openfl::geom::Point_obj::_hx___pool->release(localPoint);
+HXLINE(3200)		if (releaseTouchData) {
+HXLINE(3202)			this->_hx___touchData->remove(touchId);
+HXLINE(3203)			touchData->reset();
+HXLINE(3204)			::openfl::utils::_internal::TouchData_obj::_hx___pool->release(touchData);
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC3(Stage_obj,_hx___onTouch,(void))
+
+void Stage_obj::_hx___registerLimeModule( ::lime::app::Application application){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3211___registerLimeModule)
+HXLINE(3212)		application->onCreateWindow->add(this->_hx___onLimeCreateWindow_dyn(),null(),null());
+HXLINE(3213)		application->onUpdate->add(this->_hx___onLimeUpdate_dyn(),null(),null());
+HXLINE(3214)		application->onExit->add(this->_hx___onLimeModuleExit_dyn(),false,0);
+HXLINE(3216)		{
+HXLINE(3216)			 ::Dynamic gamepad = ::lime::ui::Gamepad_obj::devices->iterator();
+HXDLIN(3216)			while(( (bool)(gamepad->__Field(HX_("hasNext",6d,a5,46,18),::hx::paccDynamic)()) )){
+HXLINE(3216)				 ::lime::ui::Gamepad gamepad1 = ( ( ::lime::ui::Gamepad)(gamepad->__Field(HX_("next",f3,84,02,49),::hx::paccDynamic)()) );
+HXLINE(3218)				this->_hx___onLimeGamepadConnect(gamepad1);
+            			}
+            		}
+HXLINE(3221)		::lime::ui::Gamepad_obj::onConnect->add(this->_hx___onLimeGamepadConnect_dyn(),null(),null());
+HXLINE(3222)		::lime::ui::Touch_obj::onStart->add(this->_hx___onLimeTouchStart_dyn(),null(),null());
+HXLINE(3223)		::lime::ui::Touch_obj::onMove->add(this->_hx___onLimeTouchMove_dyn(),null(),null());
+HXLINE(3224)		::lime::ui::Touch_obj::onEnd->add(this->_hx___onLimeTouchEnd_dyn(),null(),null());
+HXLINE(3225)		::lime::ui::Touch_obj::onCancel->add(this->_hx___onLimeTouchCancel_dyn(),null(),null());
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___registerLimeModule,(void))
+
+void Stage_obj::_hx___resize(){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_3230___resize)
+HXLINE(3231)		int cacheWidth = this->stageWidth;
+HXLINE(3232)		int cacheHeight = this->stageHeight;
+HXLINE(3234)		int windowWidth = ::Std_obj::_hx_int((( (Float)(this->window->_hx___width) ) * this->window->_hx___scale));
+HXLINE(3235)		int windowHeight = ::Std_obj::_hx_int((( (Float)(this->window->_hx___height) ) * this->window->_hx___scale));
+HXLINE(3237)		this->_hx___displayMatrix->identity();
+HXLINE(3241)		bool _hx_tmp;
+HXDLIN(3241)		if (::hx::IsNotNull( this->get_fullScreenSourceRect() )) {
+HXLINE(3241)			_hx_tmp = this->window->_hx___fullscreen;
+            		}
+            		else {
+HXLINE(3241)			_hx_tmp = false;
+            		}
+HXDLIN(3241)		if (_hx_tmp) {
+HXLINE(3245)			this->stageWidth = ::Std_obj::_hx_int(this->get_fullScreenSourceRect()->width);
+HXLINE(3246)			this->stageHeight = ::Std_obj::_hx_int(this->get_fullScreenSourceRect()->height);
+HXLINE(3248)			Float displayScaleX = (( (Float)(windowWidth) ) / ( (Float)(this->stageWidth) ));
+HXLINE(3249)			Float displayScaleY = (( (Float)(windowHeight) ) / ( (Float)(this->stageHeight) ));
+HXLINE(3251)			 ::openfl::geom::Matrix _hx_tmp1 = this->_hx___displayMatrix;
+HXDLIN(3251)			Float _hx_tmp2 = -(this->get_fullScreenSourceRect()->x);
+HXDLIN(3251)			_hx_tmp1->translate(_hx_tmp2,-(this->get_fullScreenSourceRect()->y));
+HXLINE(3252)			this->_hx___displayMatrix->scale(displayScaleX,displayScaleY);
+HXLINE(3254)			 ::openfl::geom::Rectangle _hx_tmp3 = this->_hx___displayRect;
+HXDLIN(3254)			Float _hx_tmp4 = this->get_fullScreenSourceRect()->get_left();
+HXDLIN(3254)			Float _hx_tmp5 = this->get_fullScreenSourceRect()->get_right();
+HXDLIN(3254)			Float _hx_tmp6 = this->get_fullScreenSourceRect()->get_top();
+HXDLIN(3254)			_hx_tmp3->setTo(_hx_tmp4,_hx_tmp5,_hx_tmp6,this->get_fullScreenSourceRect()->get_bottom());
+            		}
+            		else {
+HXLINE(3258)			bool _hx_tmp7;
+HXDLIN(3258)			bool _hx_tmp8;
+HXDLIN(3258)			bool _hx_tmp9;
+HXDLIN(3258)			bool _hx_tmp10;
+HXDLIN(3258)			if ((this->_hx___logicalWidth != 0)) {
+HXLINE(3258)				_hx_tmp10 = (this->_hx___logicalHeight == 0);
+            			}
+            			else {
+HXLINE(3258)				_hx_tmp10 = true;
+            			}
+HXDLIN(3258)			if (!(_hx_tmp10)) {
+HXLINE(3258)				_hx_tmp9 = ::hx::IsEq( this->get_scaleMode(),2 );
+            			}
+            			else {
+HXLINE(3258)				_hx_tmp9 = true;
+            			}
+HXDLIN(3258)			if (!(_hx_tmp9)) {
+HXLINE(3258)				_hx_tmp8 = (windowWidth == 0);
+            			}
+            			else {
+HXLINE(3258)				_hx_tmp8 = true;
+            			}
+HXDLIN(3258)			if (!(_hx_tmp8)) {
+HXLINE(3258)				_hx_tmp7 = (windowHeight == 0);
+            			}
+            			else {
+HXLINE(3258)				_hx_tmp7 = true;
+            			}
+HXDLIN(3258)			if (_hx_tmp7) {
+HXLINE(3264)				this->stageWidth = ::Math_obj::round((( (Float)(windowWidth) ) / this->window->_hx___scale));
+HXLINE(3265)				this->stageHeight = ::Math_obj::round((( (Float)(windowHeight) ) / this->window->_hx___scale));
+HXLINE(3267)				this->_hx___displayMatrix->scale(this->window->_hx___scale,this->window->_hx___scale);
+HXLINE(3270)				this->_hx___displayRect->setTo(( (Float)(0) ),( (Float)(0) ),( (Float)(this->stageWidth) ),( (Float)(this->stageHeight) ));
+            			}
+            			else {
+HXLINE(3274)				this->stageWidth = this->_hx___logicalWidth;
+HXLINE(3275)				this->stageHeight = this->_hx___logicalHeight;
+HXLINE(3277)				 ::Dynamic _hx_switch_0 = this->get_scaleMode();
+            				if (  (_hx_switch_0==0) ){
+HXLINE(3280)					Float displayScaleX1 = (( (Float)(windowWidth) ) / ( (Float)(this->stageWidth) ));
+HXLINE(3281)					Float displayScaleY1 = (( (Float)(windowHeight) ) / ( (Float)(this->stageHeight) ));
+HXLINE(3283)					this->_hx___displayMatrix->scale(displayScaleX1,displayScaleY1);
+HXLINE(3284)					this->_hx___displayRect->setTo(( (Float)(0) ),( (Float)(0) ),( (Float)(this->stageWidth) ),( (Float)(this->stageHeight) ));
+HXLINE(3279)					goto _hx_goto_108;
+            				}
+            				if (  (_hx_switch_0==1) ){
+HXLINE(3287)					Float scaleX = (( (Float)(windowWidth) ) / ( (Float)(this->stageWidth) ));
+HXLINE(3288)					Float scaleY = (( (Float)(windowHeight) ) / ( (Float)(this->stageHeight) ));
+HXLINE(3290)					Float scale = ::Math_obj::max(scaleX,scaleY);
+HXLINE(3292)					Float scaledWidth = (( (Float)(this->stageWidth) ) * scale);
+HXLINE(3293)					Float scaledHeight = (( (Float)(this->stageHeight) ) * scale);
+HXLINE(3295)					int visibleWidth = (this->stageWidth - ::Math_obj::round(((scaledWidth - ( (Float)(windowWidth) )) / scale)));
+HXLINE(3296)					int visibleHeight = (this->stageHeight - ::Math_obj::round(((scaledHeight - ( (Float)(windowHeight) )) / scale)));
+HXLINE(3297)					int visibleX = ::Math_obj::round((( (Float)((this->stageWidth - visibleWidth)) ) / ( (Float)(2) )));
+HXLINE(3298)					int visibleY = ::Math_obj::round((( (Float)((this->stageHeight - visibleHeight)) ) / ( (Float)(2) )));
+HXLINE(3300)					this->_hx___displayMatrix->translate(( (Float)(-(visibleX)) ),( (Float)(-(visibleY)) ));
+HXLINE(3301)					this->_hx___displayMatrix->scale(scale,scale);
+HXLINE(3303)					this->_hx___displayRect->setTo(( (Float)(visibleX) ),( (Float)(visibleY) ),( (Float)(visibleWidth) ),( (Float)(visibleHeight) ));
+HXLINE(3286)					goto _hx_goto_108;
+            				}
+            				/* default */{
+HXLINE(3307)					Float scaleX1 = (( (Float)(windowWidth) ) / ( (Float)(this->stageWidth) ));
+HXLINE(3308)					Float scaleY1 = (( (Float)(windowHeight) ) / ( (Float)(this->stageHeight) ));
+HXLINE(3310)					Float scale1 = ::Math_obj::min(scaleX1,scaleY1);
+HXLINE(3312)					Float scaledWidth1 = (( (Float)(this->stageWidth) ) * scale1);
+HXLINE(3313)					Float scaledHeight1 = (( (Float)(this->stageHeight) ) * scale1);
+HXLINE(3315)					int visibleWidth1 = (this->stageWidth - ::Math_obj::round(((scaledWidth1 - ( (Float)(windowWidth) )) / scale1)));
+HXLINE(3316)					int visibleHeight1 = (this->stageHeight - ::Math_obj::round(((scaledHeight1 - ( (Float)(windowHeight) )) / scale1)));
+HXLINE(3317)					int visibleX1 = ::Math_obj::round((( (Float)((this->stageWidth - visibleWidth1)) ) / ( (Float)(2) )));
+HXLINE(3318)					int visibleY1 = ::Math_obj::round((( (Float)((this->stageHeight - visibleHeight1)) ) / ( (Float)(2) )));
+HXLINE(3320)					this->_hx___displayMatrix->translate(( (Float)(-(visibleX1)) ),( (Float)(-(visibleY1)) ));
+HXLINE(3321)					this->_hx___displayMatrix->scale(scale1,scale1);
+HXLINE(3323)					this->_hx___displayRect->setTo(( (Float)(visibleX1) ),( (Float)(visibleY1) ),( (Float)(visibleWidth1) ),( (Float)(visibleHeight1) ));
+            				}
+            				_hx_goto_108:;
+            			}
+            		}
+HXLINE(3328)		if (::hx::IsNotNull( this->context3D )) {
+HXLINE(3333)			this->context3D->configureBackBuffer(this->stageWidth,this->stageHeight,0,true,true,true);
+            		}
+HXLINE(3337)		{
+HXLINE(3337)			 ::Dynamic stage3D = this->stage3Ds->iterator();
+HXDLIN(3337)			while(( (bool)(stage3D->__Field(HX_("hasNext",6d,a5,46,18),::hx::paccDynamic)()) )){
+HXLINE(3337)				 ::openfl::display::Stage3D stage3D1 = ( ( ::openfl::display::Stage3D)(stage3D->__Field(HX_("next",f3,84,02,49),::hx::paccDynamic)()) );
+HXLINE(3339)				stage3D1->_hx___resize(windowWidth,windowHeight);
+            			}
+            		}
+HXLINE(3342)		if (::hx::IsNotNull( this->_hx___renderer )) {
+HXLINE(3344)			this->_hx___renderer->_hx___resize(windowWidth,windowHeight);
+            		}
+HXLINE(3347)		this->_hx___renderDirty = true;
+HXLINE(3349)		bool _hx_tmp11;
+HXDLIN(3349)		if ((this->stageWidth == cacheWidth)) {
+HXLINE(3349)			_hx_tmp11 = (this->stageHeight != cacheHeight);
+            		}
+            		else {
+HXLINE(3349)			_hx_tmp11 = true;
+            		}
+HXDLIN(3349)		if (_hx_tmp11) {
+HXLINE(3351)			this->_hx___setTransformDirty();
+HXLINE(3353)			 ::openfl::events::Event event = null();
+HXLINE(3359)			event =  ::openfl::events::Event_obj::__alloc( HX_CTX ,HX_("resize",f4,59,7b,08),null(),null());
+HXLINE(3362)			this->_hx___dispatchEvent(event);
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,_hx___resize,(void))
+
+void Stage_obj::_hx___setLogicalSize(int width,int height){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3371___setLogicalSize)
+HXLINE(3372)		this->_hx___logicalWidth = width;
+HXLINE(3373)		this->_hx___logicalHeight = height;
+HXLINE(3375)		this->_hx___resize();
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC2(Stage_obj,_hx___setLogicalSize,(void))
+
+void Stage_obj::_hx___startDrag( ::openfl::display::Sprite sprite,bool lockCenter, ::openfl::geom::Rectangle bounds){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_3379___startDrag)
+HXLINE(3380)		if (::hx::IsNull( bounds )) {
+HXLINE(3382)			this->_hx___dragBounds = null();
+            		}
+            		else {
+HXLINE(3386)			this->_hx___dragBounds =  ::openfl::geom::Rectangle_obj::__alloc( HX_CTX ,null(),null(),null(),null());
+HXLINE(3388)			Float right = bounds->get_right();
+HXLINE(3389)			Float bottom = bounds->get_bottom();
+HXLINE(3390)			Float _hx_tmp;
+HXDLIN(3390)			if ((right < bounds->x)) {
+HXLINE(3390)				_hx_tmp = right;
+            			}
+            			else {
+HXLINE(3390)				_hx_tmp = bounds->x;
+            			}
+HXDLIN(3390)			this->_hx___dragBounds->x = _hx_tmp;
+HXLINE(3391)			Float _hx_tmp1;
+HXDLIN(3391)			if ((bottom < bounds->y)) {
+HXLINE(3391)				_hx_tmp1 = bottom;
+            			}
+            			else {
+HXLINE(3391)				_hx_tmp1 = bounds->y;
+            			}
+HXDLIN(3391)			this->_hx___dragBounds->y = _hx_tmp1;
+HXLINE(3392)			this->_hx___dragBounds->width = ::Math_obj::abs(bounds->width);
+HXLINE(3393)			this->_hx___dragBounds->height = ::Math_obj::abs(bounds->height);
+            		}
+HXLINE(3396)		this->_hx___dragObject = sprite;
+HXLINE(3398)		if (::hx::IsNotNull( this->_hx___dragObject )) {
+HXLINE(3400)			if (lockCenter) {
+HXLINE(3402)				this->_hx___dragOffsetX = ( (Float)(0) );
+HXLINE(3403)				this->_hx___dragOffsetY = ( (Float)(0) );
+            			}
+            			else {
+HXLINE(3407)				 ::openfl::geom::Point mouse = ::openfl::geom::Point_obj::_hx___pool->get().StaticCast<  ::openfl::geom::Point >();
+HXLINE(3408)				Float _hx_tmp2 = this->get_mouseX();
+HXDLIN(3408)				mouse->setTo(_hx_tmp2,this->get_mouseY());
+HXLINE(3409)				 ::openfl::display::DisplayObjectContainer parent = this->_hx___dragObject->parent;
+HXLINE(3411)				if (::hx::IsNotNull( parent )) {
+HXLINE(3413)					 ::openfl::geom::Matrix _this = parent->_hx___getWorldTransform();
+HXDLIN(3413)					Float norm = ((_this->a * _this->d) - (_this->b * _this->c));
+HXDLIN(3413)					if ((norm == 0)) {
+HXLINE(3413)						mouse->x = -(_this->tx);
+HXDLIN(3413)						mouse->y = -(_this->ty);
+            					}
+            					else {
+HXLINE(3413)						Float px = ((((Float)1.0) / norm) * ((_this->c * (_this->ty - mouse->y)) + (_this->d * (mouse->x - _this->tx))));
+HXDLIN(3413)						mouse->y = ((((Float)1.0) / norm) * ((_this->a * (mouse->y - _this->ty)) + (_this->b * (_this->tx - mouse->x))));
+HXDLIN(3413)						mouse->x = px;
+            					}
+            				}
+HXLINE(3416)				Float _hx_tmp3 = this->_hx___dragObject->get_x();
+HXDLIN(3416)				this->_hx___dragOffsetX = (_hx_tmp3 - mouse->x);
+HXLINE(3417)				Float _hx_tmp4 = this->_hx___dragObject->get_y();
+HXDLIN(3417)				this->_hx___dragOffsetY = (_hx_tmp4 - mouse->y);
+HXLINE(3418)				::openfl::geom::Point_obj::_hx___pool->release(mouse);
+            			}
+            		}
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC3(Stage_obj,_hx___startDrag,(void))
+
+void Stage_obj::_hx___stopDrag( ::openfl::display::Sprite sprite){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3424___stopDrag)
+HXLINE(3425)		this->_hx___dragBounds = null();
+HXLINE(3426)		this->_hx___dragObject = null();
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___stopDrag,(void))
+
+void Stage_obj::_hx___unregisterLimeModule( ::lime::app::Application application){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3430___unregisterLimeModule)
+HXLINE(3432)		application->onCreateWindow->remove(this->_hx___onLimeCreateWindow_dyn());
+HXLINE(3433)		application->onUpdate->remove(this->_hx___onLimeUpdate_dyn());
+HXLINE(3434)		application->onExit->remove(this->_hx___onLimeModuleExit_dyn());
+HXLINE(3436)		::lime::ui::Gamepad_obj::onConnect->remove(this->_hx___onLimeGamepadConnect_dyn());
+HXLINE(3437)		::lime::ui::Touch_obj::onStart->remove(this->_hx___onLimeTouchStart_dyn());
+HXLINE(3438)		::lime::ui::Touch_obj::onMove->remove(this->_hx___onLimeTouchMove_dyn());
+HXLINE(3439)		::lime::ui::Touch_obj::onEnd->remove(this->_hx___onLimeTouchEnd_dyn());
+HXLINE(3440)		::lime::ui::Touch_obj::onCancel->remove(this->_hx___onLimeTouchCancel_dyn());
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,_hx___unregisterLimeModule,(void))
+
+void Stage_obj::_hx___update(bool transformOnly,bool updateChildren){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3446___update)
+HXDLIN(3446)		if (transformOnly) {
+HXLINE(3448)			if (this->_hx___transformDirty) {
+HXLINE(3450)				this->super::_hx___update(true,updateChildren);
+HXLINE(3452)				if (updateChildren) {
+HXLINE(3454)					this->_hx___transformDirty = false;
+            				}
+            			}
+            		}
+            		else {
+HXLINE(3461)			bool _hx_tmp;
+HXDLIN(3461)			if (!(this->_hx___transformDirty)) {
+HXLINE(3461)				_hx_tmp = this->_hx___renderDirty;
+            			}
+            			else {
+HXLINE(3461)				_hx_tmp = true;
+            			}
+HXDLIN(3461)			if (_hx_tmp) {
+HXLINE(3463)				this->super::_hx___update(false,updateChildren);
+HXLINE(3465)				bool updateChildren1 = updateChildren;
+            			}
+            			else {
+HXLINE(3481)				bool _hx_tmp1;
+HXDLIN(3481)				if (!(this->_hx___renderDirty)) {
+HXLINE(3481)					_hx_tmp1 = this->_hx___wasDirty;
+            				}
+            				else {
+HXLINE(3481)					_hx_tmp1 = false;
+            				}
+HXDLIN(3481)				if (_hx_tmp1) {
+HXLINE(3486)					this->super::_hx___update(false,updateChildren);
+HXLINE(3488)					if (updateChildren) {
+HXLINE(3490)						this->_hx___wasDirty = false;
+            					}
+            				}
+            			}
+            		}
+            	}
+
+
+ ::Dynamic Stage_obj::get_color(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3502_get_color)
+HXDLIN(3502)		return this->_hx___color;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_color,return )
+
+ ::Dynamic Stage_obj::set_color( ::Dynamic value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3506_set_color)
+HXLINE(3507)		if (::hx::IsNull( value )) {
+HXLINE(3509)			this->_hx___transparent = true;
+HXLINE(3510)			value = 0;
+            		}
+            		else {
+HXLINE(3514)			this->_hx___transparent = false;
+            		}
+HXLINE(3517)		if (::hx::IsNotEq( this->_hx___color,value )) {
+HXLINE(3519)			int r = ::hx::UShr((( (int)(value) ) & 16711680),16);
+HXLINE(3520)			int g = ::hx::UShr((( (int)(value) ) & 65280),8);
+HXLINE(3521)			int b = (( (int)(value) ) & 255);
+HXLINE(3523)			this->_hx___colorSplit[0] = (( (Float)(r) ) / ( (Float)(255) ));
+HXLINE(3524)			this->_hx___colorSplit[1] = (( (Float)(g) ) / ( (Float)(255) ));
+HXLINE(3525)			this->_hx___colorSplit[2] = (( (Float)(b) ) / ( (Float)(255) ));
+HXLINE(3526)			this->_hx___colorString = (HX_("#",23,00,00,00) + ::StringTools_obj::hex((( (int)(value) ) & 16777215),6));
+HXLINE(3527)			this->_hx___renderDirty = true;
+HXLINE(3528)			this->_hx___color = (-16777216 | (( (int)(value) ) & 16777215));
+            		}
+HXLINE(3531)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_color,return )
+
+Float Stage_obj::get_contentsScaleFactor(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3536_get_contentsScaleFactor)
+HXDLIN(3536)		return this->_hx___contentsScaleFactor;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_contentsScaleFactor,return )
+
+ ::Dynamic Stage_obj::get_displayState(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3541_get_displayState)
+HXDLIN(3541)		return this->_hx___displayState;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_displayState,return )
+
+ ::Dynamic Stage_obj::set_displayState( ::Dynamic value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3545_set_displayState)
+HXLINE(3546)		if (::hx::IsNotNull( this->window )) {
+HXLINE(3548)			if (::hx::IsEq( value,2 )) {
+HXLINE(3551)				if (this->window->_hx___fullscreen) {
+HXLINE(3554)					this->window->set_fullscreen(false);
+            				}
+            			}
+            			else {
+HXLINE(3558)				if (!(this->window->_hx___fullscreen)) {
+HXLINE(3561)					this->window->set_fullscreen(true);
+            				}
+            			}
+            		}
+HXLINE(3566)		return (this->_hx___displayState = value);
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_displayState,return )
+
+ ::openfl::display::InteractiveObject Stage_obj::get_focus(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3571_get_focus)
+HXDLIN(3571)		return this->_hx___focus;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_focus,return )
+
+ ::openfl::display::InteractiveObject Stage_obj::set_focus( ::openfl::display::InteractiveObject value){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_3575_set_focus)
+HXLINE(3576)		bool _hx_tmp;
+HXDLIN(3576)		if (::hx::IsInstanceEq( value,this->_hx___focus )) {
+HXLINE(3576)			if (::hx::IsNull( value )) {
+HXLINE(3576)				_hx_tmp = ::hx::IsNotNull( this->_hx___cacheFocus );
+            			}
+            			else {
+HXLINE(3576)				_hx_tmp = false;
+            			}
+            		}
+            		else {
+HXLINE(3576)			_hx_tmp = true;
+            		}
+HXDLIN(3576)		if (_hx_tmp) {
+HXLINE(3578)			 ::openfl::display::InteractiveObject oldFocus = this->_hx___focus;
+HXLINE(3579)			this->_hx___focus = value;
+HXLINE(3580)			this->_hx___cacheFocus = value;
+HXLINE(3582)			if (::hx::IsNotNull( oldFocus )) {
+HXLINE(3584)				 ::openfl::events::FocusEvent event =  ::openfl::events::FocusEvent_obj::__alloc( HX_CTX ,HX_("focusOut",96,6f,5e,11),true,false,value,false,0);
+HXLINE(3585)				::Array< ::Dynamic> stack = ::Array_obj< ::Dynamic>::__new();
+HXLINE(3586)				oldFocus->_hx___getInteractive(stack);
+HXLINE(3587)				stack->reverse();
+HXLINE(3588)				this->_hx___dispatchStack(event,stack);
+            			}
+HXLINE(3591)			if (::hx::IsNotNull( value )) {
+HXLINE(3593)				 ::openfl::events::FocusEvent event1 =  ::openfl::events::FocusEvent_obj::__alloc( HX_CTX ,HX_("focusIn",dd,45,83,41),true,false,oldFocus,false,0);
+HXLINE(3594)				::Array< ::Dynamic> stack1 = ::Array_obj< ::Dynamic>::__new();
+HXLINE(3595)				value->_hx___getInteractive(stack1);
+HXLINE(3596)				stack1->reverse();
+HXLINE(3597)				this->_hx___dispatchStack(event1,stack1);
+            			}
+            		}
+HXLINE(3601)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_focus,return )
+
+Float Stage_obj::get_frameRate(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3605_get_frameRate)
+HXLINE(3606)		if (::hx::IsNotNull( this->window )) {
+HXLINE(3608)			return this->window->_hx___backend->getFrameRate();
+            		}
+HXLINE(3611)		return ( (Float)(0) );
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_frameRate,return )
+
+Float Stage_obj::set_frameRate(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3615_set_frameRate)
+HXLINE(3616)		if (::hx::IsNotNull( this->window )) {
+HXLINE(3618)			return this->window->_hx___backend->setFrameRate(value);
+            		}
+HXLINE(3621)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_frameRate,return )
+
+int Stage_obj::get_fullScreenHeight(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3626_get_fullScreenHeight)
+HXDLIN(3626)		return ::Math_obj::ceil((( (Float)(this->window->get_display()->currentMode->height) ) * this->window->_hx___scale));
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_fullScreenHeight,return )
+
+ ::openfl::geom::Rectangle Stage_obj::get_fullScreenSourceRect(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3631_get_fullScreenSourceRect)
+HXDLIN(3631)		if (::hx::IsNull( this->_hx___fullScreenSourceRect )) {
+HXDLIN(3631)			return null();
+            		}
+            		else {
+HXDLIN(3631)			return this->_hx___fullScreenSourceRect->clone();
+            		}
+HXDLIN(3631)		return null();
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_fullScreenSourceRect,return )
+
+ ::openfl::geom::Rectangle Stage_obj::set_fullScreenSourceRect( ::openfl::geom::Rectangle value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3635_set_fullScreenSourceRect)
+HXLINE(3636)		if (::hx::IsNull( value )) {
+HXLINE(3638)			if (::hx::IsNotNull( this->_hx___fullScreenSourceRect )) {
+HXLINE(3640)				this->_hx___fullScreenSourceRect = null();
+HXLINE(3641)				this->_hx___resize();
+            			}
+            		}
+            		else {
+HXLINE(3644)			if (!(value->equals(this->_hx___fullScreenSourceRect))) {
+HXLINE(3646)				this->_hx___fullScreenSourceRect = value->clone();
+HXLINE(3647)				this->_hx___resize();
+            			}
+            		}
+HXLINE(3650)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_fullScreenSourceRect,return )
+
+int Stage_obj::get_fullScreenWidth(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3655_get_fullScreenWidth)
+HXDLIN(3655)		return ::Math_obj::ceil((( (Float)(this->window->get_display()->currentMode->width) ) * this->window->_hx___scale));
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_fullScreenWidth,return )
+
+Float Stage_obj::set_height(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3660_set_height)
+HXDLIN(3660)		return this->get_height();
+            	}
+
+
+Float Stage_obj::get_mouseX(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3665_get_mouseX)
+HXDLIN(3665)		return this->_hx___mouseX;
+            	}
+
+
+Float Stage_obj::get_mouseY(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3670_get_mouseY)
+HXDLIN(3670)		return this->_hx___mouseY;
+            	}
+
+
+ ::Dynamic Stage_obj::get_quality(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3675_get_quality)
+HXDLIN(3675)		return this->_hx___quality;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_quality,return )
+
+ ::Dynamic Stage_obj::set_quality( ::Dynamic value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3679_set_quality)
+HXLINE(3680)		this->_hx___quality = value;
+HXLINE(3682)		if (::hx::IsNotNull( this->_hx___renderer )) {
+HXLINE(3684)			 ::Dynamic _hx_tmp = this->get_quality();
+HXDLIN(3684)			this->_hx___renderer->_hx___allowSmoothing = ::hx::IsNotEq( _hx_tmp,2 );
+            		}
+HXLINE(3687)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_quality,return )
+
+Float Stage_obj::set_rotation(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3692_set_rotation)
+HXDLIN(3692)		return ( (Float)(0) );
+            	}
+
+
+ ::Dynamic Stage_obj::get_scaleMode(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3697_get_scaleMode)
+HXDLIN(3697)		return this->_hx___scaleMode;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(Stage_obj,get_scaleMode,return )
+
+ ::Dynamic Stage_obj::set_scaleMode( ::Dynamic value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3701_set_scaleMode)
+HXLINE(3702)		if (::hx::IsNotEq( value,this->_hx___scaleMode )) {
+HXLINE(3704)			this->_hx___scaleMode = value;
+HXLINE(3705)			this->_hx___resize();
+            		}
+HXLINE(3708)		return value;
+            	}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(Stage_obj,set_scaleMode,return )
+
+Float Stage_obj::set_scaleX(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3713_set_scaleX)
+HXDLIN(3713)		return ( (Float)(0) );
+            	}
+
+
+Float Stage_obj::set_scaleY(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3718_set_scaleY)
+HXDLIN(3718)		return ( (Float)(0) );
+            	}
+
+
+bool Stage_obj::get_tabEnabled(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3723_get_tabEnabled)
+HXDLIN(3723)		return false;
+            	}
+
+
+bool Stage_obj::set_tabEnabled(bool value){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_3728_set_tabEnabled)
+HXDLIN(3728)		HX_STACK_DO_THROW( ::openfl::errors::IllegalOperationError_obj::__alloc( HX_CTX ,HX_("Error: The Stage class does not implement this property or method.",a3,36,62,11)));
+HXDLIN(3728)		return false;
+            	}
+
+
+int Stage_obj::get_tabIndex(){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3733_get_tabIndex)
+HXDLIN(3733)		return -1;
+            	}
+
+
+int Stage_obj::set_tabIndex(int value){
+            	HX_GC_STACKFRAME(&_hx_pos_e171466d8d112c10_3738_set_tabIndex)
+HXDLIN(3738)		HX_STACK_DO_THROW( ::openfl::errors::IllegalOperationError_obj::__alloc( HX_CTX ,HX_("Error: The Stage class does not implement this property or method.",a3,36,62,11)));
+HXDLIN(3738)		return 0;
+            	}
+
+
+ ::openfl::geom::Transform Stage_obj::set_transform( ::openfl::geom::Transform value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3743_set_transform)
+HXDLIN(3743)		return this->get_transform();
+            	}
+
+
+Float Stage_obj::set_width(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3748_set_width)
+HXDLIN(3748)		return this->get_width();
+            	}
+
+
+Float Stage_obj::set_x(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3753_set_x)
+HXDLIN(3753)		return ( (Float)(0) );
+            	}
+
+
+Float Stage_obj::set_y(Float value){
+            	HX_STACKFRAME(&_hx_pos_e171466d8d112c10_3758_set_y)
+HXDLIN(3758)		return ( (Float)(0) );
+            	}
+
+
+
+::hx::ObjectPtr< Stage_obj > Stage_obj::__new( ::lime::ui::Window window, ::Dynamic color) {
+	::hx::ObjectPtr< Stage_obj > __this = new Stage_obj();
+	__this->__construct(window,color);
+	return __this;
+}
+
+::hx::ObjectPtr< Stage_obj > Stage_obj::__alloc(::hx::Ctx *_hx_ctx, ::lime::ui::Window window, ::Dynamic color) {
+	Stage_obj *__this = (Stage_obj*)(::hx::Ctx::alloc(_hx_ctx, sizeof(Stage_obj), true, "openfl.display.Stage"));
+	*(void **)__this = Stage_obj::_hx_vtable;
+	__this->__construct(window,color);
+	return __this;
+}
+
+Stage_obj::Stage_obj()
+{
+}
+
+void Stage_obj::__Mark(HX_MARK_PARAMS)
+{
+	HX_MARK_BEGIN_CLASS(Stage);
+	HX_MARK_MEMBER_NAME(align,"align");
+	HX_MARK_MEMBER_NAME(allowsFullScreen,"allowsFullScreen");
+	HX_MARK_MEMBER_NAME(allowsFullScreenInteractive,"allowsFullScreenInteractive");
+	HX_MARK_MEMBER_NAME(application,"application");
+	HX_MARK_MEMBER_NAME(context3D,"context3D");
+	HX_MARK_MEMBER_NAME(showDefaultContextMenu,"showDefaultContextMenu");
+	HX_MARK_MEMBER_NAME(softKeyboardRect,"softKeyboardRect");
+	HX_MARK_MEMBER_NAME(stage3Ds,"stage3Ds");
+	HX_MARK_MEMBER_NAME(stageFocusRect,"stageFocusRect");
+	HX_MARK_MEMBER_NAME(stageHeight,"stageHeight");
+	HX_MARK_MEMBER_NAME(stageWidth,"stageWidth");
+	HX_MARK_MEMBER_NAME(window,"window");
+	HX_MARK_MEMBER_NAME(nativeWindow,"nativeWindow");
+	HX_MARK_MEMBER_NAME(_hx___cacheFocus,"__cacheFocus");
+	HX_MARK_MEMBER_NAME(_hx___clearBeforeRender,"__clearBeforeRender");
+	HX_MARK_MEMBER_NAME(_hx___color,"__color");
+	HX_MARK_MEMBER_NAME(_hx___colorSplit,"__colorSplit");
+	HX_MARK_MEMBER_NAME(_hx___colorString,"__colorString");
+	HX_MARK_MEMBER_NAME(_hx___contentsScaleFactor,"__contentsScaleFactor");
+	HX_MARK_MEMBER_NAME(_hx___currentTabOrderIndex,"__currentTabOrderIndex");
+	HX_MARK_MEMBER_NAME(_hx___deltaTime,"__deltaTime");
+	HX_MARK_MEMBER_NAME(_hx___dirty,"__dirty");
+	HX_MARK_MEMBER_NAME(_hx___displayMatrix,"__displayMatrix");
+	HX_MARK_MEMBER_NAME(_hx___displayRect,"__displayRect");
+	HX_MARK_MEMBER_NAME(_hx___displayState,"__displayState");
+	HX_MARK_MEMBER_NAME(_hx___dragBounds,"__dragBounds");
+	HX_MARK_MEMBER_NAME(_hx___dragObject,"__dragObject");
+	HX_MARK_MEMBER_NAME(_hx___dragOffsetX,"__dragOffsetX");
+	HX_MARK_MEMBER_NAME(_hx___dragOffsetY,"__dragOffsetY");
+	HX_MARK_MEMBER_NAME(_hx___focus,"__focus");
+	HX_MARK_MEMBER_NAME(_hx___forceRender,"__forceRender");
+	HX_MARK_MEMBER_NAME(_hx___fullscreen,"__fullscreen");
+	HX_MARK_MEMBER_NAME(_hx___fullScreenSourceRect,"__fullScreenSourceRect");
+	HX_MARK_MEMBER_NAME(_hx___invalidated,"__invalidated");
+	HX_MARK_MEMBER_NAME(_hx___lastClickTime,"__lastClickTime");
+	HX_MARK_MEMBER_NAME(_hx___lastClickTarget,"__lastClickTarget");
+	HX_MARK_MEMBER_NAME(_hx___logicalWidth,"__logicalWidth");
+	HX_MARK_MEMBER_NAME(_hx___logicalHeight,"__logicalHeight");
+	HX_MARK_MEMBER_NAME(_hx___macKeyboard,"__macKeyboard");
+	HX_MARK_MEMBER_NAME(_hx___mouseDownLeft,"__mouseDownLeft");
+	HX_MARK_MEMBER_NAME(_hx___mouseDownMiddle,"__mouseDownMiddle");
+	HX_MARK_MEMBER_NAME(_hx___mouseDownRight,"__mouseDownRight");
+	HX_MARK_MEMBER_NAME(_hx___mouseOutStack,"__mouseOutStack");
+	HX_MARK_MEMBER_NAME(_hx___mouseOverTarget,"__mouseOverTarget");
+	HX_MARK_MEMBER_NAME(_hx___mouseX,"__mouseX");
+	HX_MARK_MEMBER_NAME(_hx___mouseY,"__mouseY");
+	HX_MARK_MEMBER_NAME(_hx___pendingMouseEvent,"__pendingMouseEvent");
+	HX_MARK_MEMBER_NAME(_hx___pendingMouseX,"__pendingMouseX");
+	HX_MARK_MEMBER_NAME(_hx___pendingMouseY,"__pendingMouseY");
+	HX_MARK_MEMBER_NAME(_hx___quality,"__quality");
+	HX_MARK_MEMBER_NAME(_hx___renderer,"__renderer");
+	HX_MARK_MEMBER_NAME(_hx___rendering,"__rendering");
+	HX_MARK_MEMBER_NAME(_hx___rollOutStack,"__rollOutStack");
+	HX_MARK_MEMBER_NAME(_hx___scaleMode,"__scaleMode");
+	HX_MARK_MEMBER_NAME(_hx___stack,"__stack");
+	HX_MARK_MEMBER_NAME(_hx___touchData,"__touchData");
+	HX_MARK_MEMBER_NAME(_hx___transparent,"__transparent");
+	HX_MARK_MEMBER_NAME(_hx___uncaughtErrorEvents,"__uncaughtErrorEvents");
+	HX_MARK_MEMBER_NAME(_hx___wasDirty,"__wasDirty");
+	HX_MARK_MEMBER_NAME(_hx___wasFullscreen,"__wasFullscreen");
+	HX_MARK_MEMBER_NAME(_hx___primaryTouch,"__primaryTouch");
+	 ::openfl::display::DisplayObjectContainer_obj::__Mark(HX_MARK_ARG);
+	HX_MARK_END_CLASS();
+}
+
+void Stage_obj::__Visit(HX_VISIT_PARAMS)
+{
+	HX_VISIT_MEMBER_NAME(align,"align");
+	HX_VISIT_MEMBER_NAME(allowsFullScreen,"allowsFullScreen");
+	HX_VISIT_MEMBER_NAME(allowsFullScreenInteractive,"allowsFullScreenInteractive");
+	HX_VISIT_MEMBER_NAME(application,"application");
+	HX_VISIT_MEMBER_NAME(context3D,"context3D");
+	HX_VISIT_MEMBER_NAME(showDefaultContextMenu,"showDefaultContextMenu");
+	HX_VISIT_MEMBER_NAME(softKeyboardRect,"softKeyboardRect");
+	HX_VISIT_MEMBER_NAME(stage3Ds,"stage3Ds");
+	HX_VISIT_MEMBER_NAME(stageFocusRect,"stageFocusRect");
+	HX_VISIT_MEMBER_NAME(stageHeight,"stageHeight");
+	HX_VISIT_MEMBER_NAME(stageWidth,"stageWidth");
+	HX_VISIT_MEMBER_NAME(window,"window");
+	HX_VISIT_MEMBER_NAME(nativeWindow,"nativeWindow");
+	HX_VISIT_MEMBER_NAME(_hx___cacheFocus,"__cacheFocus");
+	HX_VISIT_MEMBER_NAME(_hx___clearBeforeRender,"__clearBeforeRender");
+	HX_VISIT_MEMBER_NAME(_hx___color,"__color");
+	HX_VISIT_MEMBER_NAME(_hx___colorSplit,"__colorSplit");
+	HX_VISIT_MEMBER_NAME(_hx___colorString,"__colorString");
+	HX_VISIT_MEMBER_NAME(_hx___contentsScaleFactor,"__contentsScaleFactor");
+	HX_VISIT_MEMBER_NAME(_hx___currentTabOrderIndex,"__currentTabOrderIndex");
+	HX_VISIT_MEMBER_NAME(_hx___deltaTime,"__deltaTime");
+	HX_VISIT_MEMBER_NAME(_hx___dirty,"__dirty");
+	HX_VISIT_MEMBER_NAME(_hx___displayMatrix,"__displayMatrix");
+	HX_VISIT_MEMBER_NAME(_hx___displayRect,"__displayRect");
+	HX_VISIT_MEMBER_NAME(_hx___displayState,"__displayState");
+	HX_VISIT_MEMBER_NAME(_hx___dragBounds,"__dragBounds");
+	HX_VISIT_MEMBER_NAME(_hx___dragObject,"__dragObject");
+	HX_VISIT_MEMBER_NAME(_hx___dragOffsetX,"__dragOffsetX");
+	HX_VISIT_MEMBER_NAME(_hx___dragOffsetY,"__dragOffsetY");
+	HX_VISIT_MEMBER_NAME(_hx___focus,"__focus");
+	HX_VISIT_MEMBER_NAME(_hx___forceRender,"__forceRender");
+	HX_VISIT_MEMBER_NAME(_hx___fullscreen,"__fullscreen");
+	HX_VISIT_MEMBER_NAME(_hx___fullScreenSourceRect,"__fullScreenSourceRect");
+	HX_VISIT_MEMBER_NAME(_hx___invalidated,"__invalidated");
+	HX_VISIT_MEMBER_NAME(_hx___lastClickTime,"__lastClickTime");
+	HX_VISIT_MEMBER_NAME(_hx___lastClickTarget,"__lastClickTarget");
+	HX_VISIT_MEMBER_NAME(_hx___logicalWidth,"__logicalWidth");
+	HX_VISIT_MEMBER_NAME(_hx___logicalHeight,"__logicalHeight");
+	HX_VISIT_MEMBER_NAME(_hx___macKeyboard,"__macKeyboard");
+	HX_VISIT_MEMBER_NAME(_hx___mouseDownLeft,"__mouseDownLeft");
+	HX_VISIT_MEMBER_NAME(_hx___mouseDownMiddle,"__mouseDownMiddle");
+	HX_VISIT_MEMBER_NAME(_hx___mouseDownRight,"__mouseDownRight");
+	HX_VISIT_MEMBER_NAME(_hx___mouseOutStack,"__mouseOutStack");
+	HX_VISIT_MEMBER_NAME(_hx___mouseOverTarget,"__mouseOverTarget");
+	HX_VISIT_MEMBER_NAME(_hx___mouseX,"__mouseX");
+	HX_VISIT_MEMBER_NAME(_hx___mouseY,"__mouseY");
+	HX_VISIT_MEMBER_NAME(_hx___pendingMouseEvent,"__pendingMouseEvent");
+	HX_VISIT_MEMBER_NAME(_hx___pendingMouseX,"__pendingMouseX");
+	HX_VISIT_MEMBER_NAME(_hx___pendingMouseY,"__pendingMouseY");
+	HX_VISIT_MEMBER_NAME(_hx___quality,"__quality");
+	HX_VISIT_MEMBER_NAME(_hx___renderer,"__renderer");
+	HX_VISIT_MEMBER_NAME(_hx___rendering,"__rendering");
+	HX_VISIT_MEMBER_NAME(_hx___rollOutStack,"__rollOutStack");
+	HX_VISIT_MEMBER_NAME(_hx___scaleMode,"__scaleMode");
+	HX_VISIT_MEMBER_NAME(_hx___stack,"__stack");
+	HX_VISIT_MEMBER_NAME(_hx___touchData,"__touchData");
+	HX_VISIT_MEMBER_NAME(_hx___transparent,"__transparent");
+	HX_VISIT_MEMBER_NAME(_hx___uncaughtErrorEvents,"__uncaughtErrorEvents");
+	HX_VISIT_MEMBER_NAME(_hx___wasDirty,"__wasDirty");
+	HX_VISIT_MEMBER_NAME(_hx___wasFullscreen,"__wasFullscreen");
+	HX_VISIT_MEMBER_NAME(_hx___primaryTouch,"__primaryTouch");
+	 ::openfl::display::DisplayObjectContainer_obj::__Visit(HX_VISIT_ARG);
+}
+
+::hx::Val Stage_obj::__Field(const ::String &inName,::hx::PropertyAccess inCallProp)
+{
+	switch(inName.length) {
+	case 5:
+		if (HX_FIELD_EQ(inName,"align") ) { return ::hx::Val( align ); }
+		if (HX_FIELD_EQ(inName,"color") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_color() ); }
+		if (HX_FIELD_EQ(inName,"focus") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_focus() ); }
+		if (HX_FIELD_EQ(inName,"set_x") ) { return ::hx::Val( set_x_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_y") ) { return ::hx::Val( set_y_dyn() ); }
+		break;
+	case 6:
+		if (HX_FIELD_EQ(inName,"window") ) { return ::hx::Val( window ); }
+		if (HX_FIELD_EQ(inName,"__drag") ) { return ::hx::Val( _hx___drag_dyn() ); }
+		break;
+	case 7:
+		if (HX_FIELD_EQ(inName,"quality") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_quality() ); }
+		if (HX_FIELD_EQ(inName,"__color") ) { return ::hx::Val( _hx___color ); }
+		if (HX_FIELD_EQ(inName,"__dirty") ) { return ::hx::Val( _hx___dirty ); }
+		if (HX_FIELD_EQ(inName,"__focus") ) { return ::hx::Val( _hx___focus ); }
+		if (HX_FIELD_EQ(inName,"__stack") ) { return ::hx::Val( _hx___stack ); }
+		if (HX_FIELD_EQ(inName,"__onKey") ) { return ::hx::Val( _hx___onKey_dyn() ); }
+		break;
+	case 8:
+		if (HX_FIELD_EQ(inName,"stage3Ds") ) { return ::hx::Val( stage3Ds ); }
+		if (HX_FIELD_EQ(inName,"__mouseX") ) { return ::hx::Val( _hx___mouseX ); }
+		if (HX_FIELD_EQ(inName,"__mouseY") ) { return ::hx::Val( _hx___mouseY ); }
+		if (HX_FIELD_EQ(inName,"__render") ) { return ::hx::Val( _hx___render_dyn() ); }
+		if (HX_FIELD_EQ(inName,"__resize") ) { return ::hx::Val( _hx___resize_dyn() ); }
+		if (HX_FIELD_EQ(inName,"__update") ) { return ::hx::Val( _hx___update_dyn() ); }
+		break;
+	case 9:
+		if (HX_FIELD_EQ(inName,"context3D") ) { return ::hx::Val( context3D ); }
+		if (HX_FIELD_EQ(inName,"frameRate") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_frameRate() ); }
+		if (HX_FIELD_EQ(inName,"scaleMode") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_scaleMode() ); }
+		if (HX_FIELD_EQ(inName,"__quality") ) { return ::hx::Val( _hx___quality ); }
+		if (HX_FIELD_EQ(inName,"__onMouse") ) { return ::hx::Val( _hx___onMouse_dyn() ); }
+		if (HX_FIELD_EQ(inName,"__onTouch") ) { return ::hx::Val( _hx___onTouch_dyn() ); }
+		if (HX_FIELD_EQ(inName,"get_color") ) { return ::hx::Val( get_color_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_color") ) { return ::hx::Val( set_color_dyn() ); }
+		if (HX_FIELD_EQ(inName,"get_focus") ) { return ::hx::Val( get_focus_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_focus") ) { return ::hx::Val( set_focus_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_width") ) { return ::hx::Val( set_width_dyn() ); }
+		break;
+	case 10:
+		if (HX_FIELD_EQ(inName,"stageWidth") ) { return ::hx::Val( stageWidth ); }
+		if (HX_FIELD_EQ(inName,"__renderer") ) { return ::hx::Val( _hx___renderer ); }
+		if (HX_FIELD_EQ(inName,"__wasDirty") ) { return ::hx::Val( _hx___wasDirty ); }
+		if (HX_FIELD_EQ(inName,"invalidate") ) { return ::hx::Val( invalidate_dyn() ); }
+		if (HX_FIELD_EQ(inName,"__stopDrag") ) { return ::hx::Val( _hx___stopDrag_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_height") ) { return ::hx::Val( set_height_dyn() ); }
+		if (HX_FIELD_EQ(inName,"get_mouseX") ) { return ::hx::Val( get_mouseX_dyn() ); }
+		if (HX_FIELD_EQ(inName,"get_mouseY") ) { return ::hx::Val( get_mouseY_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_scaleX") ) { return ::hx::Val( set_scaleX_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_scaleY") ) { return ::hx::Val( set_scaleY_dyn() ); }
+		break;
+	case 11:
+		if (HX_FIELD_EQ(inName,"application") ) { return ::hx::Val( application ); }
+		if (HX_FIELD_EQ(inName,"stageHeight") ) { return ::hx::Val( stageHeight ); }
+		if (HX_FIELD_EQ(inName,"__deltaTime") ) { return ::hx::Val( _hx___deltaTime ); }
+		if (HX_FIELD_EQ(inName,"__rendering") ) { return ::hx::Val( _hx___rendering ); }
+		if (HX_FIELD_EQ(inName,"__scaleMode") ) { return ::hx::Val( _hx___scaleMode ); }
+		if (HX_FIELD_EQ(inName,"__touchData") ) { return ::hx::Val( _hx___touchData ); }
+		if (HX_FIELD_EQ(inName,"__startDrag") ) { return ::hx::Val( _hx___startDrag_dyn() ); }
+		if (HX_FIELD_EQ(inName,"get_quality") ) { return ::hx::Val( get_quality_dyn() ); }
+		if (HX_FIELD_EQ(inName,"set_quality") ) { return ::hx::Val( set_quality_dyn() ); }
+		break;
+	case 12:
+		if (HX_FIELD_EQ(inName,"displayState") ) { if (inCallProp == ::hx::paccAlways) return ::hx::Val( get_displayState() ); }
+		if (HX_FIELD_EQ(inName,"nativeWindow") ) { return ::hx::Val( nativeWindow ); }
+		if (HX_FIELD_EQ(inName,"__cacheFocus") ) { return ::hx::Val( _hx___cacheFocus ); }
+		if (HX_FIELD_EQ(inName,"__colorSplit") ) { return ::hx::Val( _hx___colorSplit ); }
+		if (HX_FIELD_EQ(inName,"__dragBounds") ) { return ::hx::Val( _hx___dragBounds ); }
+		i

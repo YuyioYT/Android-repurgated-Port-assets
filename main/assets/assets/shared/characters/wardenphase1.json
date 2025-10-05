@@ -1,0 +1,60 @@
+{
+	"animations": [
+		{
+			"offsets": [396, 261],
+			"loop": false,
+			"fps": 12,
+			"anim": "idle",
+			"indices": [],
+			"name": "idle"
+		},
+		{
+			"offsets": [271, 293],
+			"loop": false,
+			"fps": 12,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "left"
+		},
+		{
+			"offsets": [525, 240],
+			"loop": false,
+			"fps": 12,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "right"
+		},
+		{
+			"offsets": [306, 161],
+			"loop": false,
+			"fps": 12,
+			"anim": "singUP",
+			"indices": [],
+			"name": "up"
+		},
+		{
+			"offsets": [426, 307],
+			"loop": false,
+			"fps": 12,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "down"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": true,
+	"image": "characters/expunged/Warden P1",
+	"position": [-360, -360],
+	"healthicon": "WardenPhase1",
+	"healthbar_count": 3,
+	"flip_x": false,
+	"healthbar_colors": [
+		{"blue": 255, "red": 255, "green": 255},
+		{"blue": 235, "red": 235, "green": 235},
+		{"blue": 215, "red": 215, "green": 215}
+	],
+	"camera_position": [-250, -130],
+	"sing_duration": 6.1,
+	"scale": 1,
+	"_editor_isPlayer": false
+}

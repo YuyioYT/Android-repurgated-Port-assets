@@ -1,0 +1,68 @@
+{
+	"animations": [
+		{
+			"offsets": [298, 1],
+			"loop": false,
+			"fps": 24,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "Left"
+		},
+		{
+			"offsets": [1, -22],
+			"loop": false,
+			"fps": 24,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "Right"
+		},
+		{
+			"offsets": [135, 102],
+			"loop": false,
+			"fps": 24,
+			"anim": "singUP",
+			"indices": [],
+			"name": "Up"
+		},
+		{
+			"offsets": [126, -49],
+			"loop": false,
+			"fps": 24,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "Down"
+		},
+		{
+			"loop": false,
+			"offsets": [30, -30],
+			"anim": "danceLeft",
+			"fps": 24,
+			"name": "Idle1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [30, -30],
+			"anim": "danceRight",
+			"fps": 24,
+			"name": "Idle2",
+			"indices": []
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/bambi/bambi-rage",
+	"position": [185, 375],
+	"healthicon": "Bambi Rage",
+	"healthbar_count": 3,
+	"flip_x": false,
+	"healthbar_colors": [
+		{"blue": 0, "green": 0, "red": 255},
+		{"blue": 20, "green": 0, "red": 235},
+		{"blue": 40, "green": 0, "red": 215}
+	],
+	"camera_position": [-70, 10],
+	"sing_duration": 4,
+	"scale": 1,
+	"_editor_isPlayer": false
+}

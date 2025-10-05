@@ -1,0 +1,68 @@
+{
+	"animations": [
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "left"
+		},
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "right"
+		},
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "singUP",
+			"indices": [],
+			"name": "up"
+		},
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "down"
+		},
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "danceLeft",
+			"fps": 12,
+			"name": "idle",
+			"indices": [0, 1, 2, 3, 4]
+		},
+		{
+			"loop": false,
+			"offsets": [0, 0],
+			"anim": "danceRight",
+			"fps": 12,
+			"name": "idle",
+			"indices": [5, 6, 7, 8, 9]
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": true,
+	"image": "characters/paulp/Paulp",
+	"position": [0, 160],
+	"healthicon": "Paulp",
+	"healthbar_count": 1,
+	"flip_x": false,
+	"healthbar_colors": [
+		{"green": 55, "red": 137, "blue": 251},
+		{"green": 55, "red": 137, "blue": 251},
+		{"green": 55, "red": 137, "blue": 251}
+	],
+	"camera_position": [100, 10],
+	"sing_duration": 6.1,
+	"scale": 1.75,
+	"_editor_isPlayer": false
+}
